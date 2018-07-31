@@ -15,12 +15,14 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    final static String SCANNER_DELIMITER = "\\A";
-    final static String SPEEDRUN_BASE_URL = "https://www.speedrun.com/api/v1/games";
-    final static String PARAM_CREATED_KEY = "orderby";
-    final static String PARAM_CREATED_VALUE = "created";
-    final static String PARAM_DIRECTION_KEY = "direction";
-    final static String PARAM_DIRECTION_VALUE = "desc";
+    private final static String SCANNER_DELIMITER = "\\A";
+    private final static String SPEEDRUN_BASE_URL = "https://www.speedrun.com/api/v1/games";
+    private final static String PARAM_CREATED_KEY = "orderby";
+    private final static String PARAM_CREATED_VALUE = "released";
+    private final static String PARAM_DIRECTION_KEY = "direction";
+    private final static String PARAM_DIRECTION_VALUE = "desc";
+    private final static String PARAM_MAX_RESULTS_KEY = "max";
+    private final static String PARAM_MAX_RESULTS_VALUE = "50";
 
     public static URL buildUrlForGamesByCreationDate(){
         return buildUrlForGames(PARAM_CREATED_KEY, PARAM_CREATED_VALUE);
@@ -33,6 +35,7 @@ public class NetworkUtils {
         Uri builtUri = Uri.parse(SPEEDRUN_BASE_URL).buildUpon()
                 .appendQueryParameter(paramName, paramValue)
                 .appendQueryParameter(PARAM_DIRECTION_KEY, PARAM_DIRECTION_VALUE)
+                .appendQueryParameter(PARAM_MAX_RESULTS_KEY, PARAM_MAX_RESULTS_VALUE)
                 .build();
 
         try {

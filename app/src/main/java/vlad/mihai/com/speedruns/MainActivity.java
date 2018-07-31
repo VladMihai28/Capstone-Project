@@ -1,12 +1,16 @@
 package vlad.mihai.com.speedruns;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import org.json.JSONException;
@@ -20,9 +24,13 @@ import vlad.mihai.com.speedruns.model.Game;
 import vlad.mihai.com.speedruns.utils.GameJsonParser;
 import vlad.mihai.com.speedruns.utils.NetworkUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements
+        GameAdapter.GameAdapterOnClickHandler{
 
     private static final int ID_GAMES_QUERY_LOADER = 42;
+
+    private GameAdapter gameAdapter;
+    private RecyclerView recyclerView;
 
     private Toolbar toolbar;
     @Override
@@ -31,8 +39,17 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout)).setTitle(getString(R.string.app_name));
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        toolbar = findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+
+        recyclerView = findViewById(R.id.games_recyclerview);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
+
+        gameAdapter = new GameAdapter(this, this);
+        recyclerView.setAdapter(gameAdapter);
 
         URL gamesQuery = NetworkUtils.buildUrlForGamesByCreationDate();
         Bundle bundleForLoader = new Bundle();
@@ -40,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
         getSupportLoaderManager().initLoader(ID_GAMES_QUERY_LOADER, bundleForLoader, gamesLoaderCallback);
     }
 
+    @Override
+    public void onClick(Game currentGame) {
+
+//        Context context = this;
+//        Class destinationClass = MovieDetailActivity.class;
+//        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+//        intentToStartDetailActivity.putExtra(getString(R.string.intentExtraParcelableKey), currentGame);
+//        startActivity(intentToStartDetailActivity);
+    }
 
     private LoaderManager.LoaderCallbacks<List<Game>> gamesLoaderCallback = new LoaderManager.LoaderCallbacks<List<Game>>() {
         @SuppressLint("StaticFieldLeak")
@@ -92,14 +118,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onLoadFinished(Loader<List<Game>> loader, List<Game> gameListResult) {
 //            loadingIndicator.setVisibility(View.INVISIBLE);
-            int i = 0;
-//            if (movieListResult != null) {
+            if (gameListResult != null) {
 //                showMovieDataView();
-//                movieAdapter.setMovieData(movieListResult);
+                gameAdapter.setGameData(gameListResult);
 //                movieList = movieListResult;
-//            } else {
+            } else {
 //                showErrorMessage();
-//            }
+            }
         }
 
         @Override

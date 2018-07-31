@@ -20,6 +20,14 @@ public class Assets implements Parcelable {
         coverLarge = parcel.readParcelable(CoverLarge.class.getClassLoader());
     }
 
+    public CoverLarge getCoverLarge() {
+        return coverLarge;
+    }
+
+    public void setCoverLarge(CoverLarge coverLarge) {
+        this.coverLarge = coverLarge;
+    }
+
     @Override
     public int describeContents() {
         return 0;

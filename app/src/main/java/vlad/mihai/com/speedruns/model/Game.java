@@ -44,6 +44,10 @@ public class Game implements Parcelable {
         return webLink;
     }
 
+    public Assets getAssets() {
+        return assets;
+    }
+
     public void setGameID(String gameID) {
         this.gameID = gameID;
     }
@@ -54,6 +58,10 @@ public class Game implements Parcelable {
 
     public void setWebLink(String webLink) {
         this.webLink = webLink;
+    }
+
+    public void setAssets(Assets assets) {
+        this.assets = assets;
     }
 
     @Override
