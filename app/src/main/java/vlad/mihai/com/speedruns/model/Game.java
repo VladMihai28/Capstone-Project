@@ -20,6 +20,7 @@ public class Game implements Parcelable {
     @SerializedName("weblink")
     private String webLink;
 
+    @SerializedName("assets")
     private Assets assets;
 
     public Game(){}

@@ -3,6 +3,8 @@ package vlad.mihai.com.speedruns.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Vlad
  */
@@ -11,6 +13,7 @@ public class Assets implements Parcelable {
 
     public Assets(){}
 
+    @SerializedName("cover-large")
     private CoverLarge coverLarge;
 
     public Assets(Parcel parcel){

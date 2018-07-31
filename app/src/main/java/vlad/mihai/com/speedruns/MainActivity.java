@@ -71,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
 
                     try {
                         String gamesResult = NetworkUtils.getResponseFromHttpUrl(targetUrl);
-                        gameListResult = GameJsonParser.parseGames(gamesResult);
+                        GameJsonParser gameJsonParser = new GameJsonParser(this.getContext());
+                        gameListResult = gameJsonParser.parseGames(gamesResult);
 
                     } catch (IOException e) {
                         return null;
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onLoadFinished(Loader<List<Game>> loader, List<Game> movieListResult) {
+        public void onLoadFinished(Loader<List<Game>> loader, List<Game> gameListResult) {
 //            loadingIndicator.setVisibility(View.INVISIBLE);
             int i = 0;
 //            if (movieListResult != null) {

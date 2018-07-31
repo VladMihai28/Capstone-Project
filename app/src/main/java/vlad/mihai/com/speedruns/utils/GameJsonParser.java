@@ -1,5 +1,7 @@
 package vlad.mihai.com.speedruns.utils;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -10,6 +12,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import vlad.mihai.com.speedruns.R;
 import vlad.mihai.com.speedruns.model.Game;
 
 /**
@@ -18,22 +21,32 @@ import vlad.mihai.com.speedruns.model.Game;
 
 public class GameJsonParser {
 
-    public GameJsonParser(){}
+    private Context context;
 
-//    private Gson gson;
+    public GameJsonParser(Context context){
+        this.context = context;
+    }
 
-    public static List<Game> parseGames(String gamesString){
+    private Gson gson;
+
+    public List<Game> parseGames(String gamesString){
+
+        JSONObject gameJsonList = null;
+        try {
+            gameJsonList = new JSONObject(gamesString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         JSONArray games = null;
-        // it is not a json array but a single element which has an array in it
         try {
-            games = new JSONArray(gamesString);
+            games = gameJsonList.getJSONArray(context.getString(R.string.gameJsonDataTag));
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         List<Game> gameList = new ArrayList<>();
-        Gson gson = initializeGson();
+        initializeGson();
 
         for(int i = 0; i < games.length(); i++){
             try {
@@ -47,11 +60,9 @@ public class GameJsonParser {
         return gameList;
     }
 
-    private static Gson initializeGson(){
-        Gson gson;
+    private void initializeGson(){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");
         gson = gsonBuilder.create();
-        return gson;
     }
 }

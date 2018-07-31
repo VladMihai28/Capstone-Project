@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SpeedRuns</string>
     <string name="gamesLoaderQueryKey">GAMES_LOADER_KEY</string>
+    <string name="gameJsonDataTag">data</string>
 </resources>
