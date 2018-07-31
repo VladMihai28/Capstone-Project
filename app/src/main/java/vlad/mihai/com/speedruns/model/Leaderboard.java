@@ -19,15 +19,15 @@ public class Leaderboard implements Parcelable {
     @SerializedName("category")
     private String category;
     @SerializedName("runs")
-    private List<RunPlace> gameRunList;
+    private List<RunPlace> runPlaceList;
 
     public Leaderboard(){}
 
     public Leaderboard(Parcel parcel){
         this.gameID = parcel.readString();
         this.category = parcel.readString();
-        gameRunList = new ArrayList<>();
-        parcel.readList(gameRunList, RunPlace.class.getClassLoader());
+        runPlaceList = new ArrayList<>();
+        parcel.readList(runPlaceList, RunPlace.class.getClassLoader());
     }
 
     public String getGameID() {
@@ -38,8 +38,8 @@ public class Leaderboard implements Parcelable {
         return category;
     }
 
-    public List<RunPlace> getGameRunList() {
-        return gameRunList;
+    public List<RunPlace> getRunPlaceList() {
+        return runPlaceList;
     }
 
     public void setGameID(String gameID) {
@@ -50,15 +50,15 @@ public class Leaderboard implements Parcelable {
         this.category = category;
     }
 
-    public void setGameRunList(List<RunPlace> gameRunList) {
-        this.gameRunList = gameRunList;
+    public void setRunPlaceList(List<RunPlace> runPlaceList) {
+        this.runPlaceList = runPlaceList;
     }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(gameID);
         parcel.writeString(category);
-        parcel.writeList(gameRunList);
+        parcel.writeList(runPlaceList);
     }
 
     @Override

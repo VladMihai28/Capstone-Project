@@ -1,5 +1,6 @@
 package vlad.mihai.com.speedruns;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,10 +26,12 @@ import vlad.mihai.com.speedruns.utils.NetworkUtils;
  * Created by Vlad
  */
 
-public class LeaderBoardsActivity extends AppCompatActivity {
+public class LeaderBoardsActivity extends AppCompatActivity implements
+        LeaderboardAdapter.LeaderboardAdapterOnClickHandler{
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
+    private LeaderboardAdapter leaderboardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +49,8 @@ public class LeaderBoardsActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 //        recyclerView.setHasFixedSize(true);
 
-//        gameAdapter = new GameAdapter(this, this);
-//        recyclerView.setAdapter(gameAdapter);
+        leaderboardAdapter = new LeaderboardAdapter(this, this);
+        recyclerView.setAdapter(leaderboardAdapter);
 
         Intent intent = getIntent();
         Game currentGame = null;
@@ -65,6 +68,16 @@ public class LeaderBoardsActivity extends AppCompatActivity {
 //        Bundle bundleForLoader = new Bundle();
 //        bundleForLoader.putString(getString(R.string.gamesLoaderQueryKey), gamesQuery.toString());
 //        getSupportLoaderManager().initLoader(ID_GAMES_QUERY_LOADER, bundleForLoader, gamesLoaderCallback);
+    }
+
+    @Override
+    public void onClick(Leaderboard currentLeaderboard) {
+
+//        Context context = this;
+//        Class destinationClass = LeaderBoardsActivity.class;
+//        Intent intent = new Intent(context, destinationClass);
+//        intent.putExtra(getString(R.string.intentExtraGameKey), currentLeaderboard);
+//        startActivity(intent);
     }
 
     public class GameLeaderBoardsQUeryTask extends AsyncTask<URL, Void, List<Leaderboard>> {
@@ -101,7 +114,7 @@ public class LeaderBoardsActivity extends AppCompatActivity {
 
             if (leaderboardResult != null){
 //                showMovieDataView();
-//                leaderboardAdapter.setMovieData(leaderboardResult);
+                leaderboardAdapter.setLeaderboardData(leaderboardResult);
 //                movieList = leaderboardResult;
             }
             else {
