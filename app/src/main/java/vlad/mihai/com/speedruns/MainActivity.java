@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements
 
         recyclerView = findViewById(R.id.games_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
+//        recyclerView.setHasFixedSize(true);
 
         gameAdapter = new GameAdapter(this, this);
         recyclerView.setAdapter(gameAdapter);
@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public void onClick(Game currentGame) {
 
-//        Context context = this;
-//        Class destinationClass = MovieDetailActivity.class;
-//        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-//        intentToStartDetailActivity.putExtra(getString(R.string.intentExtraParcelableKey), currentGame);
-//        startActivity(intentToStartDetailActivity);
+        Context context = this;
+        Class destinationClass = LeaderBoardsActivity.class;
+        Intent intent = new Intent(context, destinationClass);
+        intent.putExtra(getString(R.string.intentExtraGameKey), currentGame);
+        startActivity(intent);
     }
 
     private LoaderManager.LoaderCallbacks<List<Game>> gamesLoaderCallback = new LoaderManager.LoaderCallbacks<List<Game>>() {

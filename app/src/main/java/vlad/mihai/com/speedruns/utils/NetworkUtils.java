@@ -17,6 +17,7 @@ public class NetworkUtils {
 
     private final static String SCANNER_DELIMITER = "\\A";
     private final static String SPEEDRUN_BASE_URL = "https://www.speedrun.com/api/v1/games";
+    private final static String RECORDS_URL_SEGMENT = "records";
     private final static String PARAM_CREATED_KEY = "orderby";
     private final static String PARAM_CREATED_VALUE = "released";
     private final static String PARAM_DIRECTION_KEY = "direction";
@@ -33,9 +34,28 @@ public class NetworkUtils {
         URL url = null;
 
         Uri builtUri = Uri.parse(SPEEDRUN_BASE_URL).buildUpon()
-                .appendQueryParameter(paramName, paramValue)
-                .appendQueryParameter(PARAM_DIRECTION_KEY, PARAM_DIRECTION_VALUE)
+//                .appendQueryParameter(paramName, paramValue)
+//                .appendQueryParameter(PARAM_DIRECTION_KEY, PARAM_DIRECTION_VALUE)
                 .appendQueryParameter(PARAM_MAX_RESULTS_KEY, PARAM_MAX_RESULTS_VALUE)
+                .build();
+
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL getUrlForGameLeaderboards(String gameID){
+        URL url = null;
+
+        Uri builtUri = Uri.parse(SPEEDRUN_BASE_URL).buildUpon()
+                .appendEncodedPath(gameID)
+                .appendEncodedPath(RECORDS_URL_SEGMENT)
+//                .appendQueryParameter(paramName, paramValue)
+//                .appendQueryParameter(PARAM_DIRECTION_KEY, PARAM_DIRECTION_VALUE)
+//                .appendQueryParameter(PARAM_MAX_RESULTS_KEY, PARAM_MAX_RESULTS_VALUE)
                 .build();
 
         try {
