@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -78,10 +79,31 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         RunPlace firstRunPlace = runPlaces.get(0);
         RunPlace secondRunPlace = runPlaces.get(1);
         RunPlace thirdRunPlace = runPlaces.get(2);
-
         holder.firstRun.setText(firstRunPlace.getGameRun().getRunID());
+        holder.firstRun.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "clicked on the first run", Toast.LENGTH_SHORT);
+            }
+        });
         holder.secondRun.setText(secondRunPlace.getGameRun().getRunID());
+        holder.secondRun.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "clicked on the secondRun", Toast.LENGTH_SHORT);
+            }
+        });
+
         holder.thirdRun.setText(thirdRunPlace.getGameRun().getRunID());
+        holder.thirdRun.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "clicked on the thirdRun", Toast.LENGTH_SHORT);
+            }
+        });
 
 //        Picasso.with(holder.categoryTitle.getContext())
 //                .load(currentLeaderBoard.getAssets().getCoverLarge().getCoverLargerUri())
