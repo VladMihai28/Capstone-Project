@@ -20,11 +20,25 @@ public class GameRun implements Parcelable {
     @SerializedName("videos")
     private RunVideo runVideo;
 
+    @SerializedName("players")
+    private List<Player> players;
+
+    @SerializedName("times")
+    private Time time;
+
+    @SerializedName("comment")
+    private String comment;
+
+
     public GameRun(){}
 
     public GameRun(Parcel parcel){
         runVideo = parcel.readParcelable(RunVideo.class.getClassLoader());
         this.runID = parcel.readString();
+        players = new ArrayList<>();
+        parcel.readList(players, Player.class.getClassLoader());
+        time = parcel.readParcelable(Time.class.getClassLoader());
+        this.comment = parcel.readString();
     }
 
     public String getRunID() {
@@ -43,10 +57,37 @@ public class GameRun implements Parcelable {
         this.runVideo = runVideo;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeParcelable(runVideo, i);
         parcel.writeString(runID);
+        parcel.writeList(players);
+        parcel.writeParcelable(time, i);
+        parcel.writeString(comment);
     }
 
     @Override

@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import vlad.mihai.com.speedruns.model.GameRun;
 import vlad.mihai.com.speedruns.model.Leaderboard;
 import vlad.mihai.com.speedruns.model.RunPlace;
 
