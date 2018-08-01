@@ -78,7 +78,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         RunPlace firstRunPlace = runPlaces.get(0);
         RunPlace secondRunPlace = runPlaces.get(1);
         RunPlace thirdRunPlace = runPlaces.get(2);
-        holder.firstRun.setText(firstRunPlace.getGameRun().getRunID());
+        holder.firstRun.setText(firstRunPlace.getGameRun().getPlayers().get(0).getName());
         holder.firstRun.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -86,7 +86,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
                 Toast.makeText(context, "clicked on the first run", Toast.LENGTH_SHORT);
             }
         });
-        holder.secondRun.setText(secondRunPlace.getGameRun().getRunID());
+        holder.secondRun.setText(secondRunPlace.getGameRun().getPlayers().get(0).getName());
         holder.secondRun.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -95,7 +95,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             }
         });
 
-        holder.thirdRun.setText(thirdRunPlace.getGameRun().getRunID());
+        holder.thirdRun.setText(thirdRunPlace.getGameRun().getPlayers().get(0).getName());
         holder.thirdRun.setOnClickListener(new View.OnClickListener(){
 
             @Override

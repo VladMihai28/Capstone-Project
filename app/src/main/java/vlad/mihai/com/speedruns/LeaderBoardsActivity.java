@@ -1,6 +1,5 @@
 package vlad.mihai.com.speedruns;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,17 +9,19 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import org.json.JSONException;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
 import vlad.mihai.com.speedruns.model.Game;
+import vlad.mihai.com.speedruns.model.GameRun;
 import vlad.mihai.com.speedruns.model.Leaderboard;
-import vlad.mihai.com.speedruns.utils.GameJsonParser;
+import vlad.mihai.com.speedruns.model.Player;
+import vlad.mihai.com.speedruns.model.RunPlace;
+import vlad.mihai.com.speedruns.model.UserProfile;
 import vlad.mihai.com.speedruns.utils.LeaderboardsJsonParser;
 import vlad.mihai.com.speedruns.utils.NetworkUtils;
+import vlad.mihai.com.speedruns.utils.UserProfileJsonParser;
 
 /**
  * Created by Vlad
@@ -32,6 +33,8 @@ public class LeaderBoardsActivity extends AppCompatActivity implements
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private LeaderboardAdapter leaderboardAdapter;
+
+    List<Leaderboard> leaderboards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,13 +117,97 @@ public class LeaderBoardsActivity extends AppCompatActivity implements
 
             if (leaderboardResult != null){
 //                showMovieDataView();
-                leaderboardAdapter.setLeaderboardData(leaderboardResult);
+                updateLeaderBoardInformation(leaderboardResult);
+//                leaderboardAdapter.setLeaderboardData(leaderboardResult);
 //                movieList = leaderboardResult;
             }
             else {
 //                showErrorMessage();
             }
         }
+    }
+
+    private void updateLeaderBoardInformation(List<Leaderboard> leaderboardResult){
+
+        leaderboards = leaderboardResult;
+        for (Leaderboard leaderboard: leaderboards){
+            List<RunPlace> runPlaceList = leaderboard.getRunPlaceList();
+            for (RunPlace runPlace: runPlaceList){
+                GameRun gameRun = runPlace.getGameRun();
+                List<Player> playerList = gameRun.getPlayers();
+                for (Player player: playerList){
+                    if (null == player.getName()){
+                        URL playerUrl = NetworkUtils.convertStringToUrl(player.getUri());
+                        new PlayerNameQueryTask().execute(playerUrl);
+                    }
+                }
+            }
+        }
+
+//        leaderboardAdapter.setLeaderboardData(leaderboards);
+
+    }
+
+    public class PlayerNameQueryTask extends AsyncTask<URL, Void, UserProfile> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            errorMessageDisplay.setVisibility(View.INVISIBLE);
+//            loadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected UserProfile doInBackground(URL... urls) {
+
+            URL targetUrl = urls[0];
+
+            UserProfile userProfile;
+
+            try {
+                String userResult =  NetworkUtils.getResponseFromHttpUrl(targetUrl);
+                UserProfileJsonParser userProfileJsonParser = new UserProfileJsonParser(LeaderBoardsActivity.this);
+                userProfile = userProfileJsonParser.parseUserProfile(userResult);
+
+            } catch (IOException e) {
+                return null;
+            }
+
+            return userProfile;
+        }
+
+        @Override
+        protected void onPostExecute(UserProfile userProfile) {
+//            loadingIndicator.setVisibility(View.INVISIBLE);
+
+            if (userProfile != null){
+                updateLeaderBoardsWithUserNames(userProfile);
+//                showMovieDataView();
+//                updateLeaderBoardInformation(leaderboardResult);
+//                leaderboardAdapter.setLeaderboardData(leaderboardResult);
+//                movieList = leaderboardResult;
+            }
+            else {
+//                showErrorMessage();
+            }
+        }
+    }
+
+    private void updateLeaderBoardsWithUserNames(UserProfile userProfile){
+        for (Leaderboard leaderboard: leaderboards){
+            List<RunPlace> runPlaceList = leaderboard.getRunPlaceList();
+            for (RunPlace runPlace: runPlaceList){
+                GameRun gameRun = runPlace.getGameRun();
+                List<Player> playerList = gameRun.getPlayers();
+                for (Player player: playerList){
+                    if (player.getId().equals(userProfile.getId())){
+                        player.setName(userProfile.getUserName().getInternationalName());
+                    }
+                }
+            }
+        }
+        leaderboardAdapter.setLeaderboardData(leaderboards);
+
     }
 
 }

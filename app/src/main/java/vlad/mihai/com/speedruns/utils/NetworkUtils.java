@@ -47,6 +47,18 @@ public class NetworkUtils {
         return url;
     }
 
+    public static URL convertStringToUrl(String urlString){
+        URL url = null;
+        Uri builtUri = Uri.parse(urlString).buildUpon()
+                .build();
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
     public static URL getUrlForGameLeaderboards(String gameID){
         URL url = null;
 
