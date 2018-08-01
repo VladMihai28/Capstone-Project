@@ -4,5 +4,6 @@
     <string name="gamesLoaderQueryKey">GAMES_LOADER_KEY</string>
     <string name="gameJsonDataTag">data</string>
     <string name="intentExtraGameKey">game</string>
+    <string name="runMissing">No run qualifies yet</string>
 </resources>
 

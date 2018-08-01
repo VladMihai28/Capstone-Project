@@ -75,34 +75,39 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         Leaderboard currentLeaderBoard = leaderboardList.get(position);
         holder.categoryTitle.setText(currentLeaderBoard.getCategory());
         List<RunPlace> runPlaces = currentLeaderBoard.getRunPlaceList();
-        RunPlace firstRunPlace = runPlaces.get(0);
-        RunPlace secondRunPlace = runPlaces.get(1);
-        RunPlace thirdRunPlace = runPlaces.get(2);
-        holder.firstRun.setText(firstRunPlace.getGameRun().getPlayers().get(0).getName());
-        holder.firstRun.setOnClickListener(new View.OnClickListener(){
+        if (runPlaces.size() >=1) {
+            RunPlace firstRunPlace = runPlaces.get(0);
+            holder.firstRun.setText(firstRunPlace.getGameRun().getPlayers().get(0).getName());
+            holder.firstRun.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "clicked on the first run", Toast.LENGTH_SHORT);
-            }
-        });
-        holder.secondRun.setText(secondRunPlace.getGameRun().getPlayers().get(0).getName());
-        holder.secondRun.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "clicked on the first run", Toast.LENGTH_SHORT);
+                }
+            });
+        }
+        if (runPlaces.size() >=2) {
+            RunPlace secondRunPlace = runPlaces.get(1);
+            holder.secondRun.setText(secondRunPlace.getGameRun().getPlayers().get(0).getName());
+            holder.secondRun.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "clicked on the secondRun", Toast.LENGTH_SHORT);
-            }
-        });
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "clicked on the secondRun", Toast.LENGTH_SHORT);
+                }
+            });
+        }
+        if (runPlaces.size() >=3) {
+            RunPlace thirdRunPlace = runPlaces.get(2);
+            holder.thirdRun.setText(thirdRunPlace.getGameRun().getPlayers().get(0).getName());
+            holder.thirdRun.setOnClickListener(new View.OnClickListener() {
 
-        holder.thirdRun.setText(thirdRunPlace.getGameRun().getPlayers().get(0).getName());
-        holder.thirdRun.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context, "clicked on the thirdRun", Toast.LENGTH_SHORT);
-            }
-        });
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context, "clicked on the thirdRun", Toast.LENGTH_SHORT);
+                }
+            });
+        }
 
 //        Picasso.with(holder.categoryTitle.getContext())
 //                .load(currentLeaderBoard.getAssets().getCoverLarge().getCoverLargerUri())

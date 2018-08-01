@@ -200,8 +200,10 @@ public class LeaderBoardsActivity extends AppCompatActivity implements
                 GameRun gameRun = runPlace.getGameRun();
                 List<Player> playerList = gameRun.getPlayers();
                 for (Player player: playerList){
-                    if (player.getId().equals(userProfile.getId())){
-                        player.setName(userProfile.getUserName().getInternationalName());
+                    if (null != player.getId()) {
+                        if (player.getId().equals(userProfile.getId())) {
+                            player.setName(userProfile.getUserName().getInternationalName());
+                        }
                     }
                 }
             }
