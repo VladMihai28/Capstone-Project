@@ -34,6 +34,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LeaderBoardsActivity" />
         </activity>
+        <provider
+            android:name="vlad.mihai.com.speedruns.data.GameContentProvider"
+            android:authorities="vlad.mihai.com.speedruns"
+            android:exported="false"/>
     </application>
 
 </manifest>
