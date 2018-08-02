@@ -47,6 +47,22 @@ public class NetworkUtils {
         return url;
     }
 
+    public static URL buildUrlForSpecificGame(String gameId){
+
+        URL url = null;
+
+        Uri builtUri = Uri.parse(SPEEDRUN_BASE_URL).buildUpon()
+                .appendEncodedPath(gameId)
+                .build();
+
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
     public static URL convertStringToUrl(String urlString){
         URL url = null;
         Uri builtUri = convertStringToUri(urlString);

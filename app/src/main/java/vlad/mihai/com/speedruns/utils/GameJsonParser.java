@@ -60,6 +60,20 @@ public class GameJsonParser {
         return gameList;
     }
 
+    public Game parseSpecificGame(String gameString){
+
+        JSONObject gameJsonObject = null;
+        try {
+            gameJsonObject = new JSONObject(gameString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Game game = null;
+        game = gson.fromJson(gameJsonObject.toString(), Game.class);
+        return game;
+    }
+
+
     private void initializeGson(){
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.setDateFormat("M/d/yy hh:mm a");

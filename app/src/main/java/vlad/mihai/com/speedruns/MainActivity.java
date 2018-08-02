@@ -3,6 +3,7 @@ package vlad.mihai.com.speedruns;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -12,14 +13,19 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
+import vlad.mihai.com.speedruns.data.GameContract;
 import vlad.mihai.com.speedruns.model.Game;
 import vlad.mihai.com.speedruns.utils.GameJsonParser;
 import vlad.mihai.com.speedruns.utils.NetworkUtils;
@@ -28,6 +34,17 @@ public class MainActivity extends AppCompatActivity implements
         GameAdapter.GameAdapterOnClickHandler{
 
     private static final int ID_GAMES_QUERY_LOADER = 42;
+    private static final int ID_FAVORITE_GAMES_LOADER = 43;
+
+    public static final String[] FAVORITE_GAMES_PROJECTION = {
+            GameContract.GameEntry.COLUMN_GAME_ID,
+            GameContract.GameEntry.COLUMN_GAME_ABBREVIATION,
+            GameContract.GameEntry.COLUMN_GAME_WEBLINK,
+    };
+
+    private final static int INDEX_GAME_ID = 1;
+
+    private List<Game> gameList;
 
     private GameAdapter gameAdapter;
     private RecyclerView recyclerView;
@@ -51,10 +68,22 @@ public class MainActivity extends AppCompatActivity implements
         gameAdapter = new GameAdapter(this, this);
         recyclerView.setAdapter(gameAdapter);
 
-        URL gamesQuery = NetworkUtils.buildUrlForGamesByCreationDate();
-        Bundle bundleForLoader = new Bundle();
-        bundleForLoader.putString(getString(R.string.gamesLoaderQueryKey), gamesQuery.toString());
-        getSupportLoaderManager().initLoader(ID_GAMES_QUERY_LOADER, bundleForLoader, gamesLoaderCallback);
+        if(savedInstanceState == null || !savedInstanceState.containsKey(getString(R.string.outStateGameParcelableKey))) {
+            URL gamesQuery = NetworkUtils.buildUrlForGamesByCreationDate();
+            Bundle bundleForLoader = new Bundle();
+            bundleForLoader.putString(getString(R.string.gamesLoaderQueryKey), gamesQuery.toString());
+            getSupportLoaderManager().initLoader(ID_GAMES_QUERY_LOADER, bundleForLoader, gamesLoaderCallback);
+        }
+        else {
+            gameList = savedInstanceState.getParcelableArrayList(getString(R.string.outStateGameParcelableKey));
+            gameAdapter.setGameData(gameList);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putParcelableArrayList(getString(R.string.outStateGameParcelableKey), (ArrayList)gameList);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -65,6 +94,33 @@ public class MainActivity extends AppCompatActivity implements
         Intent intent = new Intent(context, destinationClass);
         intent.putExtra(getString(R.string.intentExtraGameKey), currentGame);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int menuItemThatWasSelected = item.getItemId();
+
+        /* Perform data retrieval based on the sort method selected by the user */
+        switch (menuItemThatWasSelected) {
+            case R.id.popular: {
+                URL gamesQuery = NetworkUtils.buildUrlForGamesByCreationDate();
+                Bundle bundleForLoader = new Bundle();
+                bundleForLoader.putString(getString(R.string.gamesLoaderQueryKey), gamesQuery.toString());
+                getSupportLoaderManager().restartLoader(ID_GAMES_QUERY_LOADER, bundleForLoader, gamesLoaderCallback);
+                break;
+            }
+            case R.id.favorites:
+                getSupportLoaderManager().restartLoader(ID_FAVORITE_GAMES_LOADER, null, favoriteGamesLoaderCallback);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private LoaderManager.LoaderCallbacks<List<Game>> gamesLoaderCallback = new LoaderManager.LoaderCallbacks<List<Game>>() {
@@ -121,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements
             if (gameListResult != null) {
 //                showMovieDataView();
                 gameAdapter.setGameData(gameListResult);
-//                movieList = movieListResult;
+                gameList = gameListResult;
             } else {
 //                showErrorMessage();
             }
@@ -132,4 +188,84 @@ public class MainActivity extends AppCompatActivity implements
 
         }
     };
+
+
+    private LoaderManager.LoaderCallbacks<List<Game>> favoriteGamesLoaderCallback = new LoaderManager.LoaderCallbacks<List<Game>>() {
+        @SuppressLint("StaticFieldLeak")
+        @Override
+        public Loader<List<Game>> onCreateLoader(int id, final Bundle args) {
+            return new AsyncTaskLoader<List<Game>>(MainActivity.this) {
+                List<Game> gameData = null;
+
+                @Override
+                protected void onStartLoading() {
+
+                    if (gameData != null) {
+                        deliverResult(gameData);
+                    } else {
+                        forceLoad();
+                    }
+                }
+
+                @Override
+                public List<Game> loadInBackground() {
+
+                    List<Game> gameListResult = new ArrayList<>();
+                    Cursor favoriteGamesCursor = getFavoriteGames();
+                    try {
+                        while (favoriteGamesCursor.moveToNext()) {
+                            String gameId = favoriteGamesCursor.getString(INDEX_GAME_ID);
+
+                            try {
+                                String gameDBResult = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrlForSpecificGame(gameId));
+                                GameJsonParser gameJsonParser = new GameJsonParser(this.getContext());
+                                gameListResult.add(gameJsonParser.parseSpecificGame(gameDBResult));
+
+                            } catch (IOException e) {
+                                return null;
+                            }
+                        }
+                    } finally {
+                        favoriteGamesCursor.close();
+                    }
+                    return gameListResult;
+                }
+
+                public void deliverResult(List<Game> data) {
+                    gameData = data;
+                    super.deliverResult(gameData);
+                }
+
+            };
+
+        }
+
+        @Override
+        public void onLoadFinished(Loader<List<Game>> loader, List<Game> gameListResult) {
+//            loadingIndicator.setVisibility(View.INVISIBLE);
+
+            if (gameListResult != null) {
+//                showMovieDataView();
+                gameAdapter.setGameData(gameListResult);
+                gameList = gameListResult;
+//            } else {
+//                showErrorMessage();
+            }
+        }
+
+        @Override
+        public void onLoaderReset(Loader<List<Game>> loader) {
+
+        }
+    };
+
+    private Cursor getFavoriteGames(){
+        return getContentResolver().query(
+                GameContract.GameEntry.CONTENT_URI,
+                FAVORITE_GAMES_PROJECTION,
+                null,
+                null,
+                null);
+    }
+
 }
