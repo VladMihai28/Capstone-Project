@@ -87,8 +87,6 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context, "clicked on the first run", Toast.LENGTH_SHORT);
-                    System.out.println("clicked");
                     Context context = holder.firstRun.getContext();
                     Class destinationClass = RunActivity.class;
                     Intent intent = new Intent(context, destinationClass);
@@ -99,26 +97,34 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             });
         }
         if (runPlaces.size() >=2) {
-            RunPlace secondRunPlace = runPlaces.get(1);
+            final RunPlace secondRunPlace = runPlaces.get(1);
             holder.secondRun.setText(secondRunPlace.getGameRun().getPlayers().get(0).getName());
             holder.secondRun.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                    System.out.println("clicked");
-                    Toast.makeText(context, "clicked on the secondRun", Toast.LENGTH_SHORT);
+                    Context context = holder.secondRun.getContext();
+                    Class destinationClass = RunActivity.class;
+                    Intent intent = new Intent(context, destinationClass);
+                    GameRun gameRun = secondRunPlace.getGameRun();
+                    intent.putExtra(context.getString(R.string.intentExtraRunKey), gameRun);
+                    context.startActivity(intent);
                 }
             });
         }
         if (runPlaces.size() >=3) {
-            RunPlace thirdRunPlace = runPlaces.get(2);
+            final RunPlace thirdRunPlace = runPlaces.get(2);
             holder.thirdRun.setText(thirdRunPlace.getGameRun().getPlayers().get(0).getName());
             holder.thirdRun.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
-                    System.out.println("clicked");
-                    Toast.makeText(context, "clicked on the thirdRun", Toast.LENGTH_SHORT);
+                    Context context = holder.secondRun.getContext();
+                    Class destinationClass = RunActivity.class;
+                    Intent intent = new Intent(context, destinationClass);
+                    GameRun gameRun = thirdRunPlace.getGameRun();
+                    intent.putExtra(context.getString(R.string.intentExtraRunKey), gameRun);
+                    context.startActivity(intent);
                 }
             });
         }
