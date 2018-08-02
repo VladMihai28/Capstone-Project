@@ -62,12 +62,20 @@ public class GameJsonParser {
 
     public Game parseSpecificGame(String gameString){
 
-        JSONObject gameJsonObject = null;
+        JSONObject gameDataJsonObject = null;
         try {
-            gameJsonObject = new JSONObject(gameString);
+            gameDataJsonObject = new JSONObject(gameString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        JSONObject gameJsonObject = null;
+        try {
+            gameJsonObject = gameDataJsonObject.getJSONObject(context.getString(R.string.gameJsonDataTag));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        initializeGson();
         Game game = null;
         game = gson.fromJson(gameJsonObject.toString(), Game.class);
         return game;

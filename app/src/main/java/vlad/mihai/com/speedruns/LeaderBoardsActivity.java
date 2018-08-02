@@ -1,18 +1,26 @@
 package vlad.mihai.com.speedruns;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import vlad.mihai.com.speedruns.data.GameContract;
 import vlad.mihai.com.speedruns.model.Game;
 import vlad.mihai.com.speedruns.model.GameRun;
 import vlad.mihai.com.speedruns.model.Leaderboard;
@@ -29,13 +37,25 @@ import vlad.mihai.com.speedruns.utils.UserProfileJsonParser;
 
 //public class LeaderBoardsActivity extends AppCompatActivity implements
 //        LeaderboardAdapter.LeaderboardAdapterOnClickHandler{
-public class LeaderBoardsActivity extends AppCompatActivity{
+public class LeaderBoardsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private LeaderboardAdapter leaderboardAdapter;
+    private FloatingActionButton fab;
 
+    public String selection;
+    public String[] selectionArgs;
+    Game currentGame;
     List<Leaderboard> leaderboards;
+    private String gameID;
+    private boolean gameIsInFavorites;
+
+    public static final String[] FAVORITE_GAMES_PROJECTION = {
+            GameContract.GameEntry.COLUMN_GAME_ID,
+            GameContract.GameEntry.COLUMN_GAME_ABBREVIATION,
+            GameContract.GameEntry.COLUMN_GAME_WEBLINK,
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +66,14 @@ public class LeaderBoardsActivity extends AppCompatActivity{
         toolbar = findViewById(R.id.leaderboards_app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        fab = findViewById(R.id.favourite_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateFavorites(view);
+            }
+        });
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
 
@@ -58,14 +86,24 @@ public class LeaderBoardsActivity extends AppCompatActivity{
         recyclerView.setAdapter(leaderboardAdapter);
 
         Intent intent = getIntent();
-        Game currentGame = null;
-        if (null != intent){
+        currentGame = null;
+        if (null != intent) {
             currentGame = intent.getParcelableExtra(getString(R.string.intentExtraGameKey));
+            gameID = currentGame.getGameID();
         }
 
-        if (null != currentGame){
+        if (null != currentGame) {
             URL leaderboardsQuery = NetworkUtils.getUrlForGameLeaderboards(currentGame.getGameID());
             new GameLeaderBoardsQUeryTask().execute(leaderboardsQuery);
+            selection = GameContract.GameEntry.COLUMN_GAME_ID + " = ? ";
+            selectionArgs = new String[]{gameID};
+            Cursor cursor = getFavoriteGameById(selection, selectionArgs);
+            if (cursor.getCount() > 0) {
+                markAsFavorite();
+            }
+            else {
+                unmarkAsFavorite();
+            }
         }
 
 
@@ -102,7 +140,7 @@ public class LeaderBoardsActivity extends AppCompatActivity{
             List<Leaderboard> leaderboardsResult;
 
             try {
-                String leaderboardResult =  NetworkUtils.getResponseFromHttpUrl(targetUrl);
+                String leaderboardResult = NetworkUtils.getResponseFromHttpUrl(targetUrl);
                 LeaderboardsJsonParser leaderboardsJsonParser = new LeaderboardsJsonParser(LeaderBoardsActivity.this);
                 leaderboardsResult = leaderboardsJsonParser.parseLeaderboards(leaderboardResult);
 
@@ -117,28 +155,27 @@ public class LeaderBoardsActivity extends AppCompatActivity{
         protected void onPostExecute(List<Leaderboard> leaderboardResult) {
 //            loadingIndicator.setVisibility(View.INVISIBLE);
 
-            if (leaderboardResult != null){
+            if (leaderboardResult != null) {
 //                showMovieDataView();
                 updateLeaderBoardInformation(leaderboardResult);
 //                leaderboardAdapter.setLeaderboardData(leaderboardResult);
 //                movieList = leaderboardResult;
-            }
-            else {
+            } else {
 //                showErrorMessage();
             }
         }
     }
 
-    private void updateLeaderBoardInformation(List<Leaderboard> leaderboardResult){
+    private void updateLeaderBoardInformation(List<Leaderboard> leaderboardResult) {
 
         leaderboards = leaderboardResult;
-        for (Leaderboard leaderboard: leaderboards){
+        for (Leaderboard leaderboard : leaderboards) {
             List<RunPlace> runPlaceList = leaderboard.getRunPlaceList();
-            for (RunPlace runPlace: runPlaceList){
+            for (RunPlace runPlace : runPlaceList) {
                 GameRun gameRun = runPlace.getGameRun();
                 List<Player> playerList = gameRun.getPlayers();
-                for (Player player: playerList){
-                    if (null == player.getName()){
+                for (Player player : playerList) {
+                    if (null == player.getName()) {
                         URL playerUrl = NetworkUtils.convertStringToUrl(player.getUri());
                         new PlayerNameQueryTask().execute(playerUrl);
                     }
@@ -167,7 +204,7 @@ public class LeaderBoardsActivity extends AppCompatActivity{
             UserProfile userProfile;
 
             try {
-                String userResult =  NetworkUtils.getResponseFromHttpUrl(targetUrl);
+                String userResult = NetworkUtils.getResponseFromHttpUrl(targetUrl);
                 UserProfileJsonParser userProfileJsonParser = new UserProfileJsonParser(LeaderBoardsActivity.this);
                 userProfile = userProfileJsonParser.parseUserProfile(userResult);
 
@@ -182,26 +219,25 @@ public class LeaderBoardsActivity extends AppCompatActivity{
         protected void onPostExecute(UserProfile userProfile) {
 //            loadingIndicator.setVisibility(View.INVISIBLE);
 
-            if (userProfile != null){
+            if (userProfile != null) {
                 updateLeaderBoardsWithUserNames(userProfile);
 //                showMovieDataView();
 //                updateLeaderBoardInformation(leaderboardResult);
 //                leaderboardAdapter.setLeaderboardData(leaderboardResult);
 //                movieList = leaderboardResult;
-            }
-            else {
+            } else {
 //                showErrorMessage();
             }
         }
     }
 
-    private void updateLeaderBoardsWithUserNames(UserProfile userProfile){
-        for (Leaderboard leaderboard: leaderboards){
+    private void updateLeaderBoardsWithUserNames(UserProfile userProfile) {
+        for (Leaderboard leaderboard : leaderboards) {
             List<RunPlace> runPlaceList = leaderboard.getRunPlaceList();
-            for (RunPlace runPlace: runPlaceList){
+            for (RunPlace runPlace : runPlaceList) {
                 GameRun gameRun = runPlace.getGameRun();
                 List<Player> playerList = gameRun.getPlayers();
-                for (Player player: playerList){
+                for (Player player : playerList) {
                     if (null != player.getId()) {
                         if (player.getId().equals(userProfile.getId())) {
                             player.setName(userProfile.getUserName().getInternationalName());
@@ -214,4 +250,53 @@ public class LeaderBoardsActivity extends AppCompatActivity{
 
     }
 
+    private void updateFavorites(View v) {
+        if (gameIsInFavorites) {
+            unmarkAsFavorite();
+            removeFavoriteGame(gameID);
+        } else {
+            markAsFavorite();
+            addNewGameToFavorites();
+        }
+    }
+
+
+    private void removeFavoriteGame(String gameID) {
+        int result = getContentResolver().delete(GameContract.GameEntry.CONTENT_URI, selection , selectionArgs);
+        if (result > 0){
+            Toast.makeText(getBaseContext(), "Removed from favorites", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void addNewGameToFavorites() {
+
+        ContentValues cv = new ContentValues();
+        cv.put(GameContract.GameEntry.COLUMN_GAME_ID, currentGame.getGameID());
+        cv.put(GameContract.GameEntry.COLUMN_GAME_ABBREVIATION, currentGame.getAbbreviation());
+        cv.put(GameContract.GameEntry.COLUMN_GAME_WEBLINK, currentGame.getWebLink());
+        Uri uri = getContentResolver().insert(GameContract.GameEntry.CONTENT_URI, cv);
+        if(uri != null) {
+            Toast.makeText(getBaseContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void markAsFavorite() {
+        fab.setBackgroundColor(getResources().getColor(R.color.colorRed));
+        gameIsInFavorites = true;
+    }
+
+    private void unmarkAsFavorite() {
+        fab.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        gameIsInFavorites = false;
+
+    }
+
+    private Cursor getFavoriteGameById(String selection, String[] selectionArgs){
+        return getContentResolver().query(
+                GameContract.GameEntry.CONTENT_URI,
+                FAVORITE_GAMES_PROJECTION,
+                selection,
+                selectionArgs,
+                null);
+    }
 }

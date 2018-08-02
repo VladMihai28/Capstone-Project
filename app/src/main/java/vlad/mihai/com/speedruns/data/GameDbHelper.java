@@ -21,7 +21,7 @@ public class GameDbHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " + GameContract.GameEntry.TABLE_NAME + " (" +
                 GameContract.GameEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 GameContract.GameEntry.COLUMN_GAME_ID + " TEXT NOT NULL, " +
-                GameContract.GameEntry.COLUMN_GAME_ABBREVIATION + " TEXT NOT NULL " +
+                GameContract.GameEntry.COLUMN_GAME_ABBREVIATION + " TEXT NOT NULL, " +
                 GameContract.GameEntry.COLUMN_GAME_WEBLINK + " TEXT NOT NULL " +
                 "); ";
 

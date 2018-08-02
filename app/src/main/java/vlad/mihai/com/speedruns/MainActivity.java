@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements
             GameContract.GameEntry.COLUMN_GAME_WEBLINK,
     };
 
-    private final static int INDEX_GAME_ID = 1;
+    private final static int INDEX_GAME_ID = 0;
 
     private List<Game> gameList;
 
@@ -218,8 +218,10 @@ public class MainActivity extends AppCompatActivity implements
 
                             try {
                                 String gameDBResult = NetworkUtils.getResponseFromHttpUrl(NetworkUtils.buildUrlForSpecificGame(gameId));
-                                GameJsonParser gameJsonParser = new GameJsonParser(this.getContext());
-                                gameListResult.add(gameJsonParser.parseSpecificGame(gameDBResult));
+                                if (null != gameDBResult) {
+                                    GameJsonParser gameJsonParser = new GameJsonParser(this.getContext());
+                                    gameListResult.add(gameJsonParser.parseSpecificGame(gameDBResult));
+                                }
 
                             } catch (IOException e) {
                                 return null;
