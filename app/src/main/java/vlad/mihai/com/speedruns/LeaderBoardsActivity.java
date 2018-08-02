@@ -27,8 +27,9 @@ import vlad.mihai.com.speedruns.utils.UserProfileJsonParser;
  * Created by Vlad
  */
 
-public class LeaderBoardsActivity extends AppCompatActivity implements
-        LeaderboardAdapter.LeaderboardAdapterOnClickHandler{
+//public class LeaderBoardsActivity extends AppCompatActivity implements
+//        LeaderboardAdapter.LeaderboardAdapterOnClickHandler{
+public class LeaderBoardsActivity extends AppCompatActivity{
 
     private Toolbar toolbar;
     private RecyclerView recyclerView;
@@ -52,7 +53,8 @@ public class LeaderBoardsActivity extends AppCompatActivity implements
         recyclerView.setLayoutManager(layoutManager);
 //        recyclerView.setHasFixedSize(true);
 
-        leaderboardAdapter = new LeaderboardAdapter(this, this);
+        leaderboardAdapter = new LeaderboardAdapter(this);
+//        leaderboardAdapter = new LeaderboardAdapter(this, this);
         recyclerView.setAdapter(leaderboardAdapter);
 
         Intent intent = getIntent();
@@ -73,15 +75,15 @@ public class LeaderBoardsActivity extends AppCompatActivity implements
 //        getSupportLoaderManager().initLoader(ID_GAMES_QUERY_LOADER, bundleForLoader, gamesLoaderCallback);
     }
 
-    @Override
-    public void onClick(Leaderboard currentLeaderboard) {
+//    @Override
+//    public void onClick(Leaderboard currentLeaderboard) {
 
 //        Context context = this;
 //        Class destinationClass = LeaderBoardsActivity.class;
 //        Intent intent = new Intent(context, destinationClass);
 //        intent.putExtra(getString(R.string.intentExtraGameKey), currentLeaderboard);
 //        startActivity(intent);
-    }
+//    }
 
     public class GameLeaderBoardsQUeryTask extends AsyncTask<URL, Void, List<Leaderboard>> {
 

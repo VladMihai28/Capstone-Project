@@ -1,6 +1,7 @@
 package vlad.mihai.com.speedruns;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import vlad.mihai.com.speedruns.model.GameRun;
 import vlad.mihai.com.speedruns.model.Leaderboard;
 import vlad.mihai.com.speedruns.model.RunPlace;
 
@@ -21,17 +23,20 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     private List<Leaderboard> leaderboardList;
 
-    private final LeaderboardAdapter.LeaderboardAdapterOnClickHandler clickHandler;
+//    private final LeaderboardAdapter.LeaderboardAdapterOnClickHandler clickHandler;
     private Context context;
 
-    public LeaderboardAdapter (Context context, LeaderboardAdapter.LeaderboardAdapterOnClickHandler clickHandler){
-        this.clickHandler= clickHandler;
+//    public LeaderboardAdapter (Context context, LeaderboardAdapter.LeaderboardAdapterOnClickHandler clickHandler){
+//        this.clickHandler= clickHandler;
+//        this.context = context;
+//    }
+    public LeaderboardAdapter (Context context){
         this.context = context;
     }
 
-    public interface LeaderboardAdapterOnClickHandler{
-        void onClick(Leaderboard currentLeaderboard);
-    }
+//    public interface LeaderboardAdapterOnClickHandler{
+//        void onClick(Leaderboard currentLeaderboard);
+//    }
 
     public class LeaderboardAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -53,7 +58,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             Leaderboard currentLeaderboard = leaderboardList.get(adapterPosition);
-            clickHandler.onClick(currentLeaderboard);
+//            clickHandler.onClick(currentLeaderboard);
         }
     }
 
@@ -70,19 +75,26 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     }
 
     @Override
-    public void onBindViewHolder(LeaderboardAdapter.LeaderboardAdapterViewHolder holder, int position) {
+    public void onBindViewHolder(final LeaderboardAdapter.LeaderboardAdapterViewHolder holder, int position) {
 
         Leaderboard currentLeaderBoard = leaderboardList.get(position);
         holder.categoryTitle.setText(currentLeaderBoard.getCategory());
         List<RunPlace> runPlaces = currentLeaderBoard.getRunPlaceList();
         if (runPlaces.size() >=1) {
-            RunPlace firstRunPlace = runPlaces.get(0);
+            final RunPlace firstRunPlace = runPlaces.get(0);
             holder.firstRun.setText(firstRunPlace.getGameRun().getPlayers().get(0).getName());
             holder.firstRun.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(context, "clicked on the first run", Toast.LENGTH_SHORT);
+                    System.out.println("clicked");
+                    Context context = holder.firstRun.getContext();
+                    Class destinationClass = RunActivity.class;
+                    Intent intent = new Intent(context, destinationClass);
+                    GameRun gameRun = firstRunPlace.getGameRun();
+                    intent.putExtra(context.getString(R.string.intentExtraRunKey), gameRun);
+                    context.startActivity(intent);
                 }
             });
         }
@@ -93,6 +105,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
                 @Override
                 public void onClick(View view) {
+                    System.out.println("clicked");
                     Toast.makeText(context, "clicked on the secondRun", Toast.LENGTH_SHORT);
                 }
             });
@@ -104,6 +117,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
                 @Override
                 public void onClick(View view) {
+                    System.out.println("clicked");
                     Toast.makeText(context, "clicked on the thirdRun", Toast.LENGTH_SHORT);
                 }
             });

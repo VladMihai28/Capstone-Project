@@ -21,10 +21,18 @@
         </activity>
         <activity
             android:name=".LeaderBoardsActivity"
+            android:launchMode="singleTop"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".RunActivity"
+            android:parentActivityName=".LeaderBoardsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LeaderBoardsActivity" />
         </activity>
     </application>
 
