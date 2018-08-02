@@ -281,12 +281,13 @@ public class LeaderBoardsActivity extends AppCompatActivity {
     }
 
     private void markAsFavorite() {
-        fab.setBackgroundColor(getResources().getColor(R.color.colorRed));
+        fab.setImageResource(R.drawable.favorite);
         gameIsInFavorites = true;
+
     }
 
     private void unmarkAsFavorite() {
-        fab.setBackgroundColor(getResources().getColor(R.color.colorAccent));
+        fab.setImageResource(R.drawable.remove);
         gameIsInFavorites = false;
 
     }
