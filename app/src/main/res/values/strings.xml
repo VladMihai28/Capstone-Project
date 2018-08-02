@@ -7,6 +7,16 @@
     <string name="intentExtraGameKey">game</string>
     <string name="intentExtraRunKey">run</string>
     <string name="runMissing">No run qualifies yet</string>
+    <string name="playerNameDefaultText">Player name unavailable</string>
+    <string name="runDurationDefaultText">Run Duration unavailable</string>
+    <string name="runDateDefaultText">Run Date unavailable</string>
+    <string name="videosLabelDefaultText">Videos</string>
+    <string name="runDurationBaseTemplate">Run Duration:\u0020</string>
+    <string name="seconds">\u0020seconds\u0020</string>
+    <string name="minutes">\u0020minutes\u0020</string>
+    <string name="hours">\u0020hours\u0020</string>
+    <string name="runDateBaseTemplate">Run Date:\u0020</string>
+
 </resources>
 
 

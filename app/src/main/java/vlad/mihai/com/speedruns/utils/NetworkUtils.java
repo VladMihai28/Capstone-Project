@@ -49,14 +49,20 @@ public class NetworkUtils {
 
     public static URL convertStringToUrl(String urlString){
         URL url = null;
-        Uri builtUri = Uri.parse(urlString).buildUpon()
-                .build();
+        Uri builtUri = convertStringToUri(urlString);
         try {
             url = new URL(builtUri.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         return url;
+    }
+
+    public static Uri convertStringToUri(String urlString){
+
+        Uri builtUri = Uri.parse(urlString).buildUpon()
+                .build();
+        return builtUri;
     }
 
     public static URL getUrlForGameLeaderboards(String gameID){

@@ -29,6 +29,8 @@ public class GameRun implements Parcelable {
     @SerializedName("comment")
     private String comment;
 
+    @SerializedName("date")
+    private String date;
 
     public GameRun(){}
 
@@ -39,6 +41,7 @@ public class GameRun implements Parcelable {
         parcel.readList(players, Player.class.getClassLoader());
         time = parcel.readParcelable(Time.class.getClassLoader());
         this.comment = parcel.readString();
+        this.date = parcel.readString();
     }
 
     public String getRunID() {
@@ -77,6 +80,14 @@ public class GameRun implements Parcelable {
         this.time = time;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -88,6 +99,7 @@ public class GameRun implements Parcelable {
         parcel.writeList(players);
         parcel.writeParcelable(time, i);
         parcel.writeString(comment);
+        parcel.writeString(date);
     }
 
     @Override
