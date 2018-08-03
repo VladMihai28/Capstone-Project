@@ -78,7 +78,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public void onBindViewHolder(final LeaderboardAdapter.LeaderboardAdapterViewHolder holder, int position) {
 
         Leaderboard currentLeaderBoard = leaderboardList.get(position);
-        holder.categoryTitle.setText(currentLeaderBoard.getCategory());
+        String categoryName = currentLeaderBoard.getCategoryName();
+        holder.categoryTitle.setText(categoryName);
         List<RunPlace> runPlaces = currentLeaderBoard.getRunPlaceList();
         if (runPlaces.size() >=1) {
             final RunPlace firstRunPlace = runPlaces.get(0);

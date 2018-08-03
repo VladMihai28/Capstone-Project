@@ -22,12 +22,14 @@ import java.net.URL;
 import java.util.List;
 
 import vlad.mihai.com.speedruns.data.GameContract;
+import vlad.mihai.com.speedruns.model.Category;
 import vlad.mihai.com.speedruns.model.Game;
 import vlad.mihai.com.speedruns.model.GameRun;
 import vlad.mihai.com.speedruns.model.Leaderboard;
 import vlad.mihai.com.speedruns.model.Player;
 import vlad.mihai.com.speedruns.model.RunPlace;
 import vlad.mihai.com.speedruns.model.UserProfile;
+import vlad.mihai.com.speedruns.utils.CategoryJsonParser;
 import vlad.mihai.com.speedruns.utils.LeaderboardsJsonParser;
 import vlad.mihai.com.speedruns.utils.NetworkUtils;
 import vlad.mihai.com.speedruns.utils.UserProfileJsonParser;
@@ -45,6 +47,7 @@ public class LeaderBoardsActivity extends AppCompatActivity {
     private LeaderboardAdapter leaderboardAdapter;
     private FloatingActionButton fab;
     private TextView errorTextView;
+    CollapsingToolbarLayout collapsingToolbarLayout;
 
     public String selection;
     public String[] selectionArgs;
@@ -67,7 +70,8 @@ public class LeaderBoardsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.leaderboards_activity);
 
-        ((CollapsingToolbarLayout) findViewById(R.id.leaderboards_collapsing_toolbar_layout)).setTitle(getString(R.string.leaderboards_activity_name));
+        collapsingToolbarLayout = findViewById(R.id.leaderboards_collapsing_toolbar_layout);
+        collapsingToolbarLayout.setTitle(getString(R.string.leaderboards_activity_name));
         toolbar = findViewById(R.id.leaderboards_app_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -190,6 +194,9 @@ public class LeaderBoardsActivity extends AppCompatActivity {
                     }
                 }
             }
+            URL categoryUrl = NetworkUtils.buildUrlForCategory(leaderboard.getCategory());
+            initiatedQueries++;
+            new CategoryQueryTask().execute(categoryUrl);
         }
 
 //        leaderboardAdapter.setLeaderboardData(leaderboards);
@@ -240,6 +247,51 @@ public class LeaderBoardsActivity extends AppCompatActivity {
         }
     }
 
+    public class CategoryQueryTask extends AsyncTask<URL, Void, Category> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+//            errorMessageDisplay.setVisibility(View.INVISIBLE);
+//            loadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Category doInBackground(URL... urls) {
+
+            URL targetUrl = urls[0];
+
+            Category category;
+
+            try {
+                String categoryResult = NetworkUtils.getResponseFromHttpUrl(targetUrl);
+                CategoryJsonParser categoryJsonParser = new CategoryJsonParser(LeaderBoardsActivity.this);
+                category = categoryJsonParser.parseCategory(categoryResult);
+
+            } catch (IOException e) {
+                return null;
+            }
+
+            return category;
+        }
+
+        @Override
+        protected void onPostExecute(Category category) {
+//            loadingIndicator.setVisibility(View.INVISIBLE);
+
+            if (category != null) {
+                updateLeaderBoardsWithCategory(category);
+//                showMovieDataView();
+//                updateLeaderBoardInformation(leaderboardResult);
+//                leaderboardAdapter.setLeaderboardData(leaderboardResult);
+//                movieList = leaderboardResult;
+            } else {
+//                showErrorMessage();
+            }
+        }
+    }
+
+
     private void updateLeaderBoardsWithUserNames(UserProfile userProfile) {
         for (Leaderboard leaderboard : leaderboards) {
             List<RunPlace> runPlaceList = leaderboard.getRunPlaceList();
@@ -256,15 +308,36 @@ public class LeaderBoardsActivity extends AppCompatActivity {
                 }
             }
         }
-        if (completedQueries >= initiatedQueries) {
-            if (leaderboards.isEmpty()){
-                showErrorMessage();
-            }
-            else {
-                showResults();
-                leaderboardAdapter.setLeaderboardData(leaderboards);
+        leaderboardAdapter.setLeaderboardData(leaderboards);
+//        if (completedQueries >= initiatedQueries) {
+//            if (leaderboards.isEmpty()){
+//                showErrorMessage();
+//            }
+//            else {
+//                showResults();
+//                leaderboardAdapter.setLeaderboardData(leaderboards);
+//            }
+//        }
+
+    }
+
+    private void updateLeaderBoardsWithCategory(Category category) {
+        for (Leaderboard leaderboard : leaderboards) {
+            if (leaderboard.getCategory().equals(category.getCategoryId())) {
+                leaderboard.setCategoryName(category.getName());
+                completedQueries++;
             }
         }
+        leaderboardAdapter.setLeaderboardData(leaderboards);
+//        if (completedQueries >= initiatedQueries) {
+//            if (leaderboards.isEmpty()){
+//                showErrorMessage();
+//            }
+//            else {
+//                showResults();
+//                leaderboardAdapter.setLeaderboardData(leaderboards);
+//            }
+//        }
 
     }
 

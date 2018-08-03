@@ -18,6 +18,9 @@ public class Leaderboard implements Parcelable {
     private String gameID;
     @SerializedName("category")
     private String category;
+
+    private String categoryName;
+
     @SerializedName("runs")
     private List<RunPlace> runPlaceList;
 
@@ -28,6 +31,7 @@ public class Leaderboard implements Parcelable {
         this.category = parcel.readString();
         runPlaceList = new ArrayList<>();
         parcel.readList(runPlaceList, RunPlace.class.getClassLoader());
+        categoryName = parcel.readString();
     }
 
     public String getGameID() {
@@ -54,11 +58,20 @@ public class Leaderboard implements Parcelable {
         this.runPlaceList = runPlaceList;
     }
 
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(gameID);
         parcel.writeString(category);
         parcel.writeList(runPlaceList);
+        parcel.writeString(categoryName);
     }
 
     @Override

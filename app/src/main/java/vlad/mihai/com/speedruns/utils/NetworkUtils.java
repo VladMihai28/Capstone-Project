@@ -17,7 +17,9 @@ public class NetworkUtils {
 
     private final static String SCANNER_DELIMITER = "\\A";
     private final static String SPEEDRUN_BASE_URL = "https://www.speedrun.com/api/v1/games";
+    private final static String SPEEDRUN_CATEGORIES_BASE_URL = "https://www.speedrun.com/api/v1";
     private final static String RECORDS_URL_SEGMENT = "records";
+    private final static String CATEGORY_URL_SEGMENT = "categories";
     private final static String PARAM_CREATED_KEY = "orderby";
     private final static String PARAM_CREATED_VALUE = "released";
     private final static String PARAM_DIRECTION_KEY = "direction";
@@ -53,6 +55,23 @@ public class NetworkUtils {
 
         Uri builtUri = Uri.parse(SPEEDRUN_BASE_URL).buildUpon()
                 .appendEncodedPath(gameId)
+                .build();
+
+        try {
+            url = new URL(builtUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL buildUrlForCategory(String categoryId){
+
+        URL url = null;
+
+        Uri builtUri = Uri.parse(SPEEDRUN_CATEGORIES_BASE_URL).buildUpon()
+                .appendEncodedPath(CATEGORY_URL_SEGMENT)
+                .appendEncodedPath(categoryId)
                 .build();
 
         try {
