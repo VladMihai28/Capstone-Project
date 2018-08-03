@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:nextFocusForward="@+id/leaderboards_collapsing_toolbar_layout"
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
@@ -14,6 +15,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/leaderboards_collapsing_toolbar_layout"
             android:layout_width="match_parent"
+            android:nextFocusForward="@+id/leaderboards_app_bar"
             android:layout_height="match_parent"
             app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
@@ -23,6 +25,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/leaderboards_app_bar"
                 android:layout_width="match_parent"
+                android:nextFocusForward="@+id/leaderboards_recyclerview"
                 android:layout_height="?actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:contentInsetStart="@dimen/toolbar_content_inset_start"
@@ -43,6 +46,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/leaderboards_recyclerview"
         android:layout_width="match_parent"
+        android:nextFocusForward="@+id/favourite_fab"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:elevation="@dimen/recyclerview_elevation"/>

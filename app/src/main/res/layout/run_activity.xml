@@ -2,6 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+    android:nextFocusForward="@+id/run_collapsing_toolbar_layout"
     android:layout_height="match_parent">
 
     <android.support.design.widget.AppBarLayout
@@ -13,6 +14,7 @@
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/run_collapsing_toolbar_layout"
+            android:nextFocusForward="@+id/run_app_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse"
@@ -22,6 +24,7 @@
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/run_app_bar"
+                android:nextFocusForward="@+id/run_scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -33,6 +36,7 @@
 
     <ScrollView
         android:id="@+id/run_scrollview"
+        android:nextFocusForward="@+id/player_tv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -50,12 +54,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:id="@+id/player_tv"
+                android:nextFocusForward="@+id/run_duration_tv"
                 android:text="@string/playerNameDefaultText"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
+                android:nextFocusForward="@+id/run_date_tv"
                 android:id="@+id/run_duration_tv"
                 android:text="@string/runDurationDefaultText"
                 app:layout_constraintStart_toStartOf="@+id/player_tv"
@@ -66,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:id="@+id/run_date_tv"
+                android:nextFocusForward="@+id/videos_label_tv"
                 android:text="@string/runDateDefaultText"
                 app:layout_constraintStart_toStartOf="@+id/player_tv"
                 app:layout_constraintTop_toBottomOf="@+id/run_duration_tv"/>
@@ -75,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:id="@+id/videos_label_tv"
+                android:nextFocusForward="@+id/ll_videos"
                 android:text="@string/videosLabelDefaultText"
                 app:layout_constraintStart_toStartOf="@+id/player_tv"
                 app:layout_constraintTop_toBottomOf="@+id/run_date_tv"/>
