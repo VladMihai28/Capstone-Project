@@ -21,6 +21,11 @@
     <string name="menuFavorites">Favorites</string>
     <string name="outStateGameParcelableKey">mainGamesKey</string>
     <string name="errorMessage">Unable to retrieve data</string>
+    <string name="gamesRvContentDescription">List of all Games</string>
+    <string name="leaderboardsRvContentDescription">List of all run categories</string>
+    <string name="categoryCardContentDescription">First three places for a specific category</string>
+    <string name="gameListItemContentDescription">A game from the game collection</string>
+    <string name="launchYoutubeContentDescription">Watch the run video on Youtube</string>
 
 </resources>
 

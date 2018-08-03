@@ -46,6 +46,7 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/leaderboards_recyclerview"
         android:layout_width="match_parent"
+        android:contentDescription="@string/leaderboardsRvContentDescription"
         android:nextFocusForward="@+id/favourite_fab"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

@@ -52,6 +52,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
+        android:contentDescription="@string/gamesRvContentDescription"
         android:id="@+id/games_recyclerview"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
