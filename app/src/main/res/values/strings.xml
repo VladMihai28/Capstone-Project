@@ -19,6 +19,7 @@
     <string name="menuPopular">Popular</string>
     <string name="menuFavorites">Favorites</string>
     <string name="outStateGameParcelableKey">mainGamesKey</string>
+    <string name="errorMessage">Unable to retrieve data</string>
 
 </resources>
 

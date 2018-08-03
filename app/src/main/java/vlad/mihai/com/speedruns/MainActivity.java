@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.json.JSONException;
 
@@ -48,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements
 
     private GameAdapter gameAdapter;
     private RecyclerView recyclerView;
-
+    private ProgressBar loadingIndicator;
+    private TextView errorMessageDisplay;
     private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements
 
         ((CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout)).setTitle(getString(R.string.app_name));
         toolbar = findViewById(R.id.app_bar);
+        loadingIndicator = findViewById(R.id.main_loading_indicator);
+        errorMessageDisplay = findViewById(R.id.tv_error_message_display);
         setSupportActionBar(toolbar);
 
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
@@ -173,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements
 
         @Override
         public void onLoadFinished(Loader<List<Game>> loader, List<Game> gameListResult) {
-//            loadingIndicator.setVisibility(View.INVISIBLE);
+            loadingIndicator.setVisibility(View.INVISIBLE);
             if (gameListResult != null) {
 //                showMovieDataView();
                 gameAdapter.setGameData(gameListResult);
@@ -244,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements
 
         @Override
         public void onLoadFinished(Loader<List<Game>> loader, List<Game> gameListResult) {
-//            loadingIndicator.setVisibility(View.INVISIBLE);
+            loadingIndicator.setVisibility(View.INVISIBLE);
 
             if (gameListResult != null) {
 //                showMovieDataView();
@@ -268,6 +273,16 @@ public class MainActivity extends AppCompatActivity implements
                 null,
                 null,
                 null);
+    }
+
+    private void showGameDataView(){
+        errorMessageDisplay.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+    private void showErrorMessage() {
+        recyclerView.setVisibility(View.INVISIBLE);
+        loadingIndicator.setVisibility(View.INVISIBLE);
+        errorMessageDisplay.setVisibility(View.VISIBLE);
     }
 
 }
