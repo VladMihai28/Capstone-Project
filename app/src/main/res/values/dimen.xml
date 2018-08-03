@@ -5,6 +5,7 @@
     <dimen name="collapsing_toolbar_layout_title_margin">72dp</dimen>
     <dimen name="toolbar_content_inset_start">72dp</dimen>
     <dimen name="recyclerview_elevation">1dp</dimen>
+    <dimen name="adds_elevation">2dp</dimen>
     <!--<dimen name="backdrop_title">30dp</dimen>-->
     <!--<dimen name="backdrop_subtitle">18dp</dimen>-->
     <dimen name="card_margin">5dp</dimen>

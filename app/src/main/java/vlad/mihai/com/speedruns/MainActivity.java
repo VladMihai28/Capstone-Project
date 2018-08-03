@@ -19,6 +19,9 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -64,7 +67,15 @@ public class MainActivity extends AppCompatActivity implements
         errorMessageDisplay = findViewById(R.id.tv_error_message_display);
         setSupportActionBar(toolbar);
 
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+        mAdView.loadAd(adRequest);
+
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+
+
 
         recyclerView = findViewById(R.id.games_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
