@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "69649897299",
+    "firebase_url": "https://my-project-203908.firebaseio.com",
+    "project_id": "my-project-203908",
+    "storage_bucket": "my-project-203908.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:69649897299:android:9fcbc0d94418c049",
+        "android_client_info": {
+          "package_name": "vlad.mihai.com.speedruns"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "69649897299-ttrm63v6on4bt5gmjqso2jhviri4luj1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRtckIcH70vCkGseROJVeMAUy3X_PveSY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

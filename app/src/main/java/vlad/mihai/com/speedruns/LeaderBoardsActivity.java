@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
@@ -64,6 +66,8 @@ public class LeaderBoardsActivity extends AppCompatActivity {
             GameContract.GameEntry.COLUMN_GAME_WEBLINK,
     };
 
+    private FirebaseAnalytics firebaseAnalytics;
+
     private int initiatedQueries;
     private int completedQueries;
 
@@ -87,6 +91,7 @@ public class LeaderBoardsActivity extends AppCompatActivity {
             }
         });
 
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         errorTextView = findViewById(R.id.tv_leaderboards_error_message_display);
         initiatedQueries = 0;
         completedQueries = 0;

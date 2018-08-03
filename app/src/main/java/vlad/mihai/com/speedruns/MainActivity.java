@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import org.json.JSONException;
 
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements
             GameContract.GameEntry.COLUMN_GAME_WEBLINK,
     };
 
+    private FirebaseAnalytics firebaseAnalytics;
     private final static int INDEX_GAME_ID = 0;
 
     private List<Game> gameList;
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity implements
         loadingIndicator = findViewById(R.id.main_loading_indicator);
         errorMessageDisplay = findViewById(R.id.tv_error_message_display);
         setSupportActionBar(toolbar);
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         AdView mAdView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder()
@@ -89,6 +93,8 @@ public class MainActivity extends AppCompatActivity implements
             Bundle bundleForLoader = new Bundle();
             bundleForLoader.putString(getString(R.string.gamesLoaderQueryKey), gamesQuery.toString());
             getSupportLoaderManager().initLoader(ID_GAMES_QUERY_LOADER, bundleForLoader, gamesLoaderCallback);
+
+
         }
         else {
             gameList = savedInstanceState.getParcelableArrayList(getString(R.string.outStateGameParcelableKey));
@@ -109,6 +115,13 @@ public class MainActivity extends AppCompatActivity implements
         Class destinationClass = LeaderBoardsActivity.class;
         Intent intent = new Intent(context, destinationClass);
         intent.putExtra(getString(R.string.intentExtraGameKey), currentGame);
+
+        Bundle bundleForAnalytics = new Bundle();
+        bundleForAnalytics.putString(FirebaseAnalytics.Param.ITEM_ID, currentGame.getGameID());
+        bundleForAnalytics.putString(FirebaseAnalytics.Param.ITEM_NAME, currentGame.getGameName().getInternationalName());
+        bundleForAnalytics.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "gameName");
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundleForAnalytics);
+
         startActivity(intent);
     }
 
