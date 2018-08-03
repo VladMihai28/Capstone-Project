@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class LeaderBoardsActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private LeaderboardAdapter leaderboardAdapter;
     private FloatingActionButton fab;
+    private TextView errorTextView;
 
     public String selection;
     public String[] selectionArgs;
@@ -56,6 +58,9 @@ public class LeaderBoardsActivity extends AppCompatActivity {
             GameContract.GameEntry.COLUMN_GAME_ABBREVIATION,
             GameContract.GameEntry.COLUMN_GAME_WEBLINK,
     };
+
+    private int initiatedQueries;
+    private int completedQueries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +80,9 @@ public class LeaderBoardsActivity extends AppCompatActivity {
             }
         });
 
+        errorTextView = findViewById(R.id.tv_leaderboards_error_message_display);
+        initiatedQueries = 0;
+        completedQueries = 0;
         GridLayoutManager layoutManager = new GridLayoutManager(this, 1);
 
         recyclerView = findViewById(R.id.leaderboards_recyclerview);
@@ -177,6 +185,7 @@ public class LeaderBoardsActivity extends AppCompatActivity {
                 for (Player player : playerList) {
                     if (null == player.getName()) {
                         URL playerUrl = NetworkUtils.convertStringToUrl(player.getUri());
+                        initiatedQueries++;
                         new PlayerNameQueryTask().execute(playerUrl);
                     }
                 }
@@ -241,12 +250,34 @@ public class LeaderBoardsActivity extends AppCompatActivity {
                     if (null != player.getId()) {
                         if (player.getId().equals(userProfile.getId())) {
                             player.setName(userProfile.getUserName().getInternationalName());
+                            completedQueries++;
                         }
                     }
                 }
             }
         }
-        leaderboardAdapter.setLeaderboardData(leaderboards);
+        if (completedQueries >= initiatedQueries) {
+            if (leaderboards.isEmpty()){
+                showErrorMessage();
+            }
+            else {
+                showResults();
+                leaderboardAdapter.setLeaderboardData(leaderboards);
+            }
+        }
+
+    }
+
+    private void showErrorMessage(){
+        errorTextView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
+        fab.setVisibility(View.INVISIBLE);
+    }
+
+    private void showResults(){
+        errorTextView.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+        fab.setVisibility(View.VISIBLE);
 
     }
 
