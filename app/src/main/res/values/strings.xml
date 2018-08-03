@@ -26,6 +26,7 @@
     <string name="categoryCardContentDescription">First three places for a specific category</string>
     <string name="gameListItemContentDescription">A game from the game collection</string>
     <string name="launchYoutubeContentDescription">Watch the run video on Youtube</string>
+    <string name="widgetTitleSuffix">\u0020run categories</string>
 
 </resources>
 

@@ -1,5 +1,7 @@
 package vlad.mihai.com.speedruns;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
@@ -65,6 +67,7 @@ public class LeaderBoardsActivity extends AppCompatActivity {
     private int initiatedQueries;
     private int completedQueries;
 
+    private StringBuilder categoryList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +108,10 @@ public class LeaderBoardsActivity extends AppCompatActivity {
         }
 
         if (null != currentGame) {
+            categoryList = new StringBuilder();
+            categoryList.append(currentGame.getGameName().getInternationalName());
+            categoryList.append(getString(R.string.widgetTitleSuffix));
+            categoryList.append("\n");
             collapsingToolbarLayout.setTitle(getString(R.string.leaderboards_with_game_name) + currentGame.getGameName().getInternationalName());
             URL leaderboardsQuery = NetworkUtils.getUrlForGameLeaderboards(currentGame.getGameID());
             new GameLeaderBoardsQUeryTask().execute(leaderboardsQuery);
@@ -118,6 +125,9 @@ public class LeaderBoardsActivity extends AppCompatActivity {
             else {
                 unmarkAsFavorite();
             }
+
+
+
         }
 
 
@@ -324,9 +334,12 @@ public class LeaderBoardsActivity extends AppCompatActivity {
     }
 
     private void updateLeaderBoardsWithCategory(Category category) {
+
         for (Leaderboard leaderboard : leaderboards) {
             if (leaderboard.getCategory().equals(category.getCategoryId())) {
                 leaderboard.setCategoryName(category.getName());
+                categoryList.append(category.getName());
+                categoryList.append("\n");
                 completedQueries++;
             }
         }
@@ -340,6 +353,10 @@ public class LeaderBoardsActivity extends AppCompatActivity {
 //                leaderboardAdapter.setLeaderboardData(leaderboards);
 //            }
 //        }
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, SpeedRunsWidgetProvider.class));
+        SpeedRunsWidgetProvider.updateSpeedrunsWidgets(this, appWidgetManager, categoryList.toString(), appWidgetIds);
 
     }
 
