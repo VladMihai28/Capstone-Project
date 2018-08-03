@@ -14,6 +14,9 @@ public class Game implements Parcelable {
     @SerializedName("id")
     private String gameID;
 
+    @SerializedName("names")
+    private GameName gameName;
+
     @SerializedName("abbreviation")
     private String abbreviation;
 
@@ -27,9 +30,18 @@ public class Game implements Parcelable {
 
     public Game(Parcel parcel){
         assets = parcel.readParcelable(Assets.class.getClassLoader());
+        gameName = parcel.readParcelable(GameName.class.getClassLoader());
         gameID = parcel.readString();
         abbreviation = parcel.readString();
         webLink = parcel.readString();
+    }
+
+    public GameName getGameName() {
+        return gameName;
+    }
+
+    public void setGameName(GameName gameName) {
+        this.gameName = gameName;
     }
 
     public String getGameID() {
@@ -72,6 +84,7 @@ public class Game implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeParcelable(assets, i);
+        parcel.writeParcelable(gameName, i);
         parcel.writeString(gameID);
         parcel.writeString(abbreviation);
         parcel.writeString(webLink);

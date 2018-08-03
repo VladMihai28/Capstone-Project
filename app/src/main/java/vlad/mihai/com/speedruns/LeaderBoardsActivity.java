@@ -105,8 +105,10 @@ public class LeaderBoardsActivity extends AppCompatActivity {
         }
 
         if (null != currentGame) {
+            collapsingToolbarLayout.setTitle(getString(R.string.leaderboards_with_game_name) + currentGame.getGameName().getInternationalName());
             URL leaderboardsQuery = NetworkUtils.getUrlForGameLeaderboards(currentGame.getGameID());
             new GameLeaderBoardsQUeryTask().execute(leaderboardsQuery);
+
             selection = GameContract.GameEntry.COLUMN_GAME_ID + " = ? ";
             selectionArgs = new String[]{gameID};
             Cursor cursor = getFavoriteGameById(selection, selectionArgs);

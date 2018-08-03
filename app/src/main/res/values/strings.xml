@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SpeedRuns</string>
     <string name="leaderboards_activity_name">Leaderboards</string>
+    <string name="leaderboards_with_game_name">Leaderboards for\u0020</string>
     <string name="run_activity_name">Run</string>
     <string name="gamesLoaderQueryKey">GAMES_LOADER_KEY</string>
     <string name="gameJsonDataTag">data</string>
