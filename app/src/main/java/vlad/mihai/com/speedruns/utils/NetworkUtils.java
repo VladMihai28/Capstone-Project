@@ -21,7 +21,7 @@ public class NetworkUtils {
     private final static String RECORDS_URL_SEGMENT = "records";
     private final static String CATEGORY_URL_SEGMENT = "categories";
     private final static String PARAM_CREATED_KEY = "orderby";
-    private final static String PARAM_CREATED_VALUE = "released";
+    private final static String PARAM_CREATED_VALUE = "abbreviation";
     private final static String PARAM_DIRECTION_KEY = "direction";
     private final static String PARAM_DIRECTION_VALUE = "desc";
     private final static String PARAM_MAX_RESULTS_KEY = "max";
@@ -36,7 +36,7 @@ public class NetworkUtils {
         URL url = null;
 
         Uri builtUri = Uri.parse(SPEEDRUN_BASE_URL).buildUpon()
-//                .appendQueryParameter(paramName, paramValue)
+                .appendQueryParameter(paramName, paramValue)
 //                .appendQueryParameter(PARAM_DIRECTION_KEY, PARAM_DIRECTION_VALUE)
                 .appendQueryParameter(PARAM_MAX_RESULTS_KEY, PARAM_MAX_RESULTS_VALUE)
                 .build();

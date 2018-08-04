@@ -19,7 +19,8 @@ public class DisplayHelper {
 
         StringBuilder formattedDuration = new StringBuilder();
         if (null != runDurationString) {
-            int totalRunDurationInSeconds = Integer.parseInt(runDurationString);
+            float totalRunDurationInSecondsFloat = Float.parseFloat(runDurationString);
+            int totalRunDurationInSeconds = Math.round(totalRunDurationInSecondsFloat);
             int hours = totalRunDurationInSeconds / 3600;
             int runDurationMinutesRemainder = totalRunDurationInSeconds % 3600;
             int minutes = runDurationMinutesRemainder / 60;
