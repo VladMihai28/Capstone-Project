@@ -42,8 +42,6 @@ import vlad.mihai.com.speedruns.utils.UserProfileJsonParser;
  * Created by Vlad
  */
 
-//public class LeaderBoardsActivity extends AppCompatActivity implements
-//        LeaderboardAdapter.LeaderboardAdapterOnClickHandler{
 public class LeaderBoardsActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
@@ -99,10 +97,8 @@ public class LeaderBoardsActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.leaderboards_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setHasFixedSize(true);
 
         leaderboardAdapter = new LeaderboardAdapter(this);
-//        leaderboardAdapter = new LeaderboardAdapter(this, this);
         recyclerView.setAdapter(leaderboardAdapter);
 
         Intent intent = getIntent();
@@ -130,35 +126,14 @@ public class LeaderBoardsActivity extends AppCompatActivity {
             else {
                 unmarkAsFavorite();
             }
-
-
-
         }
-
-
-//        URL gamesQuery = NetworkUtils.buildUrlForGamesByCreationDate();
-//        Bundle bundleForLoader = new Bundle();
-//        bundleForLoader.putString(getString(R.string.gamesLoaderQueryKey), gamesQuery.toString());
-//        getSupportLoaderManager().initLoader(ID_GAMES_QUERY_LOADER, bundleForLoader, gamesLoaderCallback);
     }
-
-//    @Override
-//    public void onClick(Leaderboard currentLeaderboard) {
-
-//        Context context = this;
-//        Class destinationClass = LeaderBoardsActivity.class;
-//        Intent intent = new Intent(context, destinationClass);
-//        intent.putExtra(getString(R.string.intentExtraGameKey), currentLeaderboard);
-//        startActivity(intent);
-//    }
 
     public class GameLeaderBoardsQUeryTask extends AsyncTask<URL, Void, List<Leaderboard>> {
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            errorMessageDisplay.setVisibility(View.INVISIBLE);
-//            loadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -182,15 +157,9 @@ public class LeaderBoardsActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<Leaderboard> leaderboardResult) {
-//            loadingIndicator.setVisibility(View.INVISIBLE);
 
             if (leaderboardResult != null) {
-//                showMovieDataView();
                 updateLeaderBoardInformation(leaderboardResult);
-//                leaderboardAdapter.setLeaderboardData(leaderboardResult);
-//                movieList = leaderboardResult;
-            } else {
-//                showErrorMessage();
             }
         }
     }
@@ -216,8 +185,6 @@ public class LeaderBoardsActivity extends AppCompatActivity {
             new CategoryQueryTask().execute(categoryUrl);
         }
 
-//        leaderboardAdapter.setLeaderboardData(leaderboards);
-
     }
 
     public class PlayerNameQueryTask extends AsyncTask<URL, Void, UserProfile> {
@@ -225,8 +192,6 @@ public class LeaderBoardsActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            errorMessageDisplay.setVisibility(View.INVISIBLE);
-//            loadingIndicator.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -250,16 +215,9 @@ public class LeaderBoardsActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(UserProfile userProfile) {
-//            loadingIndicator.setVisibility(View.INVISIBLE);
 
             if (userProfile != null) {
                 updateLeaderBoardsWithUserNames(userProfile);
-//                showMovieDataView();
-//                updateLeaderBoardInformation(leaderboardResult);
-//                leaderboardAdapter.setLeaderboardData(leaderboardResult);
-//                movieList = leaderboardResult;
-            } else {
-//                showErrorMessage();
             }
         }
     }
@@ -294,16 +252,9 @@ public class LeaderBoardsActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Category category) {
-//            loadingIndicator.setVisibility(View.INVISIBLE);
 
             if (category != null) {
                 updateLeaderBoardsWithCategory(category);
-//                showMovieDataView();
-//                updateLeaderBoardInformation(leaderboardResult);
-//                leaderboardAdapter.setLeaderboardData(leaderboardResult);
-//                movieList = leaderboardResult;
-            } else {
-//                showErrorMessage();
             }
         }
     }
@@ -326,15 +277,6 @@ public class LeaderBoardsActivity extends AppCompatActivity {
             }
         }
         leaderboardAdapter.setLeaderboardData(leaderboards);
-//        if (completedQueries >= initiatedQueries) {
-//            if (leaderboards.isEmpty()){
-//                showErrorMessage();
-//            }
-//            else {
-//                showResults();
-//                leaderboardAdapter.setLeaderboardData(leaderboards);
-//            }
-//        }
 
     }
 
@@ -349,15 +291,6 @@ public class LeaderBoardsActivity extends AppCompatActivity {
             }
         }
         leaderboardAdapter.setLeaderboardData(leaderboards);
-//        if (completedQueries >= initiatedQueries) {
-//            if (leaderboards.isEmpty()){
-//                showErrorMessage();
-//            }
-//            else {
-//                showResults();
-//                leaderboardAdapter.setLeaderboardData(leaderboards);
-//            }
-//        }
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
         int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, SpeedRunsWidgetProvider.class));

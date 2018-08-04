@@ -84,29 +84,6 @@ public class RunActivity extends AppCompatActivity {
                 displayHelper.formatRunDuration(runDurationString);
         runDurationTextView.setText(runDuration);
 
-//        if (null != runDurationString) {
-//            int totalRunDurationInSeconds = Integer.parseInt(runDurationString);
-//            int hours = totalRunDurationInSeconds / 3600;
-//            int runDurationMinutesRemainder = totalRunDurationInSeconds % 3600;
-//            int minutes = runDurationMinutesRemainder / 60;
-//            int seconds = runDurationMinutesRemainder % 60;
-//            StringBuilder formattedDuration = new StringBuilder()
-//                    .append(getString(R.string.runDurationBaseTemplate));
-//            if (hours > 0){
-//                formattedDuration.append(Integer.toString(hours));
-//                formattedDuration.append(getString(R.string.hours));
-//            }
-//            if (minutes > 0){
-//                formattedDuration.append(Integer.toString(minutes));
-//                formattedDuration.append(getString(R.string.minutes));
-//            }
-//            if (seconds > 0){
-//                formattedDuration.append(Integer.toString(seconds));
-//                formattedDuration.append(getString(R.string.seconds));
-//            }
-//
-//            runDurationTextView.setText(formattedDuration);
-//        }
     }
 
     private void updateRunDate(String runDate) {

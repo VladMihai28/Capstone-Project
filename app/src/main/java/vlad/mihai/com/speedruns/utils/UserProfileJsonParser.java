@@ -48,16 +48,6 @@ public class UserProfileJsonParser {
         initializeGson();
         UserProfile userProfileResult = gson.fromJson(userProfile.toString(), UserProfile.class);
 
-//        for(int i = 0; i < userProfile.length(); i++){
-//            try {
-//                JSONObject currentLeaderboardJson = userProfile.getJSONObject(i);
-//                Leaderboard leaderboard = gson.fromJson(currentLeaderboardJson.toString(), Leaderboard.class);
-//                userProfileResult.add(leaderboard);
-//            } catch (JSONException e) {
-//
-//                e.printStackTrace();
-//            }
-//        }
         return userProfileResult;
     }
 

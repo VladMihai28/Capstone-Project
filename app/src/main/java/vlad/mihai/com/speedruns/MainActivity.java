@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements
 
         recyclerView = findViewById(R.id.games_recyclerview);
         recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setHasFixedSize(true);
 
         gameAdapter = new GameAdapter(this, this);
         recyclerView.setAdapter(gameAdapter);
@@ -204,11 +203,8 @@ public class MainActivity extends AppCompatActivity implements
         public void onLoadFinished(Loader<List<Game>> loader, List<Game> gameListResult) {
             loadingIndicator.setVisibility(View.INVISIBLE);
             if (gameListResult != null) {
-//                showMovieDataView();
                 gameAdapter.setGameData(gameListResult);
                 gameList = gameListResult;
-            } else {
-//                showErrorMessage();
             }
         }
 
@@ -276,11 +272,8 @@ public class MainActivity extends AppCompatActivity implements
             loadingIndicator.setVisibility(View.INVISIBLE);
 
             if (gameListResult != null) {
-//                showMovieDataView();
                 gameAdapter.setGameData(gameListResult);
                 gameList = gameListResult;
-//            } else {
-//                showErrorMessage();
             }
         }
 

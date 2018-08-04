@@ -24,20 +24,11 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     private List<Leaderboard> leaderboardList;
 
-//    private final LeaderboardAdapter.LeaderboardAdapterOnClickHandler clickHandler;
     private Context context;
 
-//    public LeaderboardAdapter (Context context, LeaderboardAdapter.LeaderboardAdapterOnClickHandler clickHandler){
-//        this.clickHandler= clickHandler;
-//        this.context = context;
-//    }
     public LeaderboardAdapter (Context context){
         this.context = context;
     }
-
-//    public interface LeaderboardAdapterOnClickHandler{
-//        void onClick(Leaderboard currentLeaderboard);
-//    }
 
     public class LeaderboardAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -59,7 +50,6 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         public void onClick(View v) {
             int adapterPosition = getAdapterPosition();
             Leaderboard currentLeaderboard = leaderboardList.get(adapterPosition);
-//            clickHandler.onClick(currentLeaderboard);
         }
     }
 
@@ -134,9 +124,6 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             });
         }
 
-//        Picasso.with(holder.categoryTitle.getContext())
-//                .load(currentLeaderBoard.getAssets().getCoverLarge().getCoverLargerUri())
-//                .into(holder.categoryTitle);
     }
 
     private String deriveRunPlaceText(GameRun gameRun, Context context){
