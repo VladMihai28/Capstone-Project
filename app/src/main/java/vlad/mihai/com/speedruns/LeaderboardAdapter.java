@@ -14,6 +14,7 @@ import java.util.List;
 import vlad.mihai.com.speedruns.model.GameRun;
 import vlad.mihai.com.speedruns.model.Leaderboard;
 import vlad.mihai.com.speedruns.model.RunPlace;
+import vlad.mihai.com.speedruns.utils.DisplayHelper;
 
 /**
  * Created by Vlad
@@ -83,7 +84,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         List<RunPlace> runPlaces = currentLeaderBoard.getRunPlaceList();
         if (runPlaces.size() >=1) {
             final RunPlace firstRunPlace = runPlaces.get(0);
-            holder.firstRun.setText(firstRunPlace.getGameRun().getPlayers().get(0).getName());
+            String firstRunPlaceText = deriveRunPlaceText(firstRunPlace.getGameRun(), holder.firstRun.getContext());
+            holder.firstRun.setText(firstRunPlaceText);
             holder.firstRun.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -99,7 +101,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         }
         if (runPlaces.size() >=2) {
             final RunPlace secondRunPlace = runPlaces.get(1);
-            holder.secondRun.setText(secondRunPlace.getGameRun().getPlayers().get(0).getName());
+            String firstRunPlaceText = deriveRunPlaceText(secondRunPlace.getGameRun(), holder.secondRun.getContext());
+            holder.secondRun.setText(firstRunPlaceText);
             holder.secondRun.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -115,7 +118,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         }
         if (runPlaces.size() >=3) {
             final RunPlace thirdRunPlace = runPlaces.get(2);
-            holder.thirdRun.setText(thirdRunPlace.getGameRun().getPlayers().get(0).getName());
+            String firstRunPlaceText = deriveRunPlaceText(thirdRunPlace.getGameRun(), holder.thirdRun.getContext());
+            holder.thirdRun.setText(firstRunPlaceText);
             holder.thirdRun.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -133,6 +137,14 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 //        Picasso.with(holder.categoryTitle.getContext())
 //                .load(currentLeaderBoard.getAssets().getCoverLarge().getCoverLargerUri())
 //                .into(holder.categoryTitle);
+    }
+
+    private String deriveRunPlaceText(GameRun gameRun, Context context){
+        StringBuilder runPlaceText = new StringBuilder()
+                .append(gameRun.getPlayers().get(0).getName());
+        DisplayHelper displayHelper = new DisplayHelper(context);
+        runPlaceText.append(displayHelper.formatRunDuration(gameRun.getTime().getPrimary_t()));
+        return runPlaceText.toString();
     }
 
     @Override

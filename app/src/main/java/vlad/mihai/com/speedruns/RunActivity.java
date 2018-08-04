@@ -16,6 +16,7 @@ import java.util.List;
 import vlad.mihai.com.speedruns.model.GameRun;
 import vlad.mihai.com.speedruns.model.RunLink;
 import vlad.mihai.com.speedruns.model.RunVideo;
+import vlad.mihai.com.speedruns.utils.DisplayHelper;
 import vlad.mihai.com.speedruns.utils.NetworkUtils;
 
 /**
@@ -77,29 +78,34 @@ public class RunActivity extends AppCompatActivity {
 
     private void updateRunDuration(String runDurationString){
 
-        if (null != runDurationString) {
-            int totalRunDurationInSeconds = Integer.parseInt(runDurationString);
-            int hours = totalRunDurationInSeconds / 3600;
-            int runDurationMinutesRemainder = totalRunDurationInSeconds % 3600;
-            int minutes = runDurationMinutesRemainder / 60;
-            int seconds = runDurationMinutesRemainder % 60;
-            StringBuilder formattedDuration = new StringBuilder()
-                    .append(getString(R.string.runDurationBaseTemplate));
-            if (hours > 0){
-                formattedDuration.append(Integer.toString(hours));
-                formattedDuration.append(getString(R.string.hours));
-            }
-            if (minutes > 0){
-                formattedDuration.append(Integer.toString(minutes));
-                formattedDuration.append(getString(R.string.minutes));
-            }
-            if (seconds > 0){
-                formattedDuration.append(Integer.toString(seconds));
-                formattedDuration.append(getString(R.string.seconds));
-            }
+        DisplayHelper displayHelper = new DisplayHelper(this);
+        String runDuration = getString(R.string.runDurationBaseTemplate) +
+                displayHelper.formatRunDuration(runDurationString);
+        runDurationTextView.setText(runDuration);
 
-            runDurationTextView.setText(formattedDuration);
-        }
+//        if (null != runDurationString) {
+//            int totalRunDurationInSeconds = Integer.parseInt(runDurationString);
+//            int hours = totalRunDurationInSeconds / 3600;
+//            int runDurationMinutesRemainder = totalRunDurationInSeconds % 3600;
+//            int minutes = runDurationMinutesRemainder / 60;
+//            int seconds = runDurationMinutesRemainder % 60;
+//            StringBuilder formattedDuration = new StringBuilder()
+//                    .append(getString(R.string.runDurationBaseTemplate));
+//            if (hours > 0){
+//                formattedDuration.append(Integer.toString(hours));
+//                formattedDuration.append(getString(R.string.hours));
+//            }
+//            if (minutes > 0){
+//                formattedDuration.append(Integer.toString(minutes));
+//                formattedDuration.append(getString(R.string.minutes));
+//            }
+//            if (seconds > 0){
+//                formattedDuration.append(Integer.toString(seconds));
+//                formattedDuration.append(getString(R.string.seconds));
+//            }
+//
+//            runDurationTextView.setText(formattedDuration);
+//        }
     }
 
     private void updateRunDate(String runDate) {
