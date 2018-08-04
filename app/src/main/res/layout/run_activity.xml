@@ -54,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:id="@+id/player_tv"
+                android:textSize="@dimen/run_text_size"
                 android:nextFocusForward="@+id/run_duration_tv"
                 android:text="@string/playerNameDefaultText"/>
 
@@ -63,6 +64,7 @@
                 android:layout_marginEnd="8dp"
                 android:nextFocusForward="@+id/run_date_tv"
                 android:id="@+id/run_duration_tv"
+                android:textSize="@dimen/run_text_size"
                 android:text="@string/runDurationDefaultText"
                 app:layout_constraintStart_toStartOf="@+id/player_tv"
                 app:layout_constraintTop_toBottomOf="@+id/player_tv"/>
@@ -72,6 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:id="@+id/run_date_tv"
+                android:textSize="@dimen/run_text_size"
                 android:nextFocusForward="@+id/videos_label_tv"
                 android:text="@string/runDateDefaultText"
                 app:layout_constraintStart_toStartOf="@+id/player_tv"
@@ -82,6 +85,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:id="@+id/videos_label_tv"
+                android:textSize="@dimen/run_text_size"
                 android:nextFocusForward="@+id/ll_videos"
                 android:text="@string/videosLabelDefaultText"
                 app:layout_constraintStart_toStartOf="@+id/player_tv"

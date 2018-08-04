@@ -72,7 +72,8 @@ public class RunActivity extends AppCompatActivity {
 
     private void updatePlayerName(String playerName){
         if (null != playerName){
-            playerTextView.setText(playerName);
+            String formattedPlayerName = getString(R.string.playerNameBaseTemplate) + playerName;
+            playerTextView.setText(formattedPlayerName);
         }
     }
 

@@ -11,8 +11,9 @@
     <string name="playerNameDefaultText">Player name unavailable</string>
     <string name="runDurationDefaultText">Run Duration unavailable</string>
     <string name="runDateDefaultText">Run Date unavailable</string>
-    <string name="videosLabelDefaultText">Videos</string>
-    <string name="runDurationBaseTemplate">Run Duration\u0020</string>
+    <string name="videosLabelDefaultText">Videos:</string>
+    <string name="runDurationBaseTemplate">Run Duration:\u0020</string>
+    <string name="playerNameBaseTemplate">Player Name:\u0020</string>
     <string name="seconds">\u0020s\u0020</string>
     <string name="minutes">\u0020m\u0020</string>
     <string name="hours">\u0020h\u0020</string>

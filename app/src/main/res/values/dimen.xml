@@ -13,9 +13,9 @@
     <dimen name="fab_translation">6dp</dimen>
     <dimen name="category_title_padding">10dp</dimen>
     <dimen name="category_title_left">5dp</dimen>
-    <dimen name="category_title">25dp</dimen>
+    <dimen name="category_title">25sp</dimen>
     <dimen name="run_padding">5dp</dimen>
-    <dimen name="run_text_size">22dp</dimen>
+    <dimen name="run_text_size">22sp</dimen>
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="progress_bar_dimen">42dp</dimen>
