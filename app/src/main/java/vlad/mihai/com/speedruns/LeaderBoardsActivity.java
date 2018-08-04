@@ -409,13 +409,13 @@ public class LeaderBoardsActivity extends AppCompatActivity {
     }
 
     private void markAsFavorite() {
-        fab.setImageResource(R.drawable.favorite);
+        fab.setImageResource(R.drawable.remove);
         gameIsInFavorites = true;
 
     }
 
     private void unmarkAsFavorite() {
-        fab.setImageResource(R.drawable.remove);
+        fab.setImageResource(R.drawable.favorite);
         gameIsInFavorites = false;
 
     }

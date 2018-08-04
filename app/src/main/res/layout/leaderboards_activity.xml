@@ -57,6 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:translationZ="@dimen/fab_translation"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/favorite"
         android:elevation="@dimen/fab_elevation"/>
