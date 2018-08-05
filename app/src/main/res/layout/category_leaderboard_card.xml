@@ -23,8 +23,8 @@
                 android:nextFocusForward="@+id/first_place"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/category_title_left"
-                android:paddingRight="@dimen/category_title_padding"
+                android:paddingStart="@dimen/category_title_left"
+                android:paddingEnd="@dimen/category_title_padding"
                 android:paddingTop="@dimen/category_title_padding"
                 android:textSize="@dimen/category_title" />
 
@@ -36,8 +36,8 @@
                 android:text="@string/runMissing"
                 app:layout_constraintTop_toBottomOf="@+id/category_title"
                 android:paddingBottom="@dimen/run_padding"
-                android:paddingLeft="@dimen/run_padding"
-                android:paddingRight="@dimen/run_padding"
+                android:paddingStart="@dimen/run_padding"
+                android:paddingEnd="@dimen/run_padding"
                 android:textSize="@dimen/run_text_size" />
 
             <TextView
@@ -48,8 +48,8 @@
                 android:text="@string/runMissing"
                 app:layout_constraintTop_toBottomOf="@+id/first_place"
                 android:paddingBottom="@dimen/run_padding"
-                android:paddingLeft="@dimen/run_padding"
-                android:paddingRight="@dimen/run_padding"
+                android:paddingStart="@dimen/run_padding"
+                android:paddingEnd="@dimen/run_padding"
                 android:textSize="@dimen/run_text_size" />
 
             <TextView
@@ -59,8 +59,8 @@
                 android:text="@string/runMissing"
                 app:layout_constraintTop_toBottomOf="@+id/second_place"
                 android:paddingBottom="@dimen/run_padding"
-                android:paddingLeft="@dimen/run_padding"
-                android:paddingRight="@dimen/run_padding"
+                android:paddingStart="@dimen/run_padding"
+                android:paddingEnd="@dimen/run_padding"
                 android:textSize="@dimen/run_text_size" />
 
         </android.support.constraint.ConstraintLayout>
