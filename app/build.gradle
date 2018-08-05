@@ -13,7 +13,7 @@ android {
     }
     signingConfigs {
         release {
-            storeFile file("my-release-key.jks")
+            storeFile file("$rootDir/my-release-key.jks")
             storePassword "capstone"
             keyAlias "my-alias"
             keyPassword "capstone"
